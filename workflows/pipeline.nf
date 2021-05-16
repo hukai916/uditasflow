@@ -9,7 +9,7 @@ params.summary_params = [:]
 ////////////////////////////////////////////////////
 
 // Validate input parameters
-Workflow.validateWorkflowParams(params, log)
+// Workflow.validateWorkflowParams(params, log)
 
 // TODO nf-core: Add all file path parameters for the pipeline to the list below
 // Check input path parameters to see if they exist
@@ -18,6 +18,7 @@ for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true
 
 // Check mandatory parameters
 if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input samplesheet not specified!' }
+
 
 ////////////////////////////////////////////////////
 /* --          CONFIG FILES                    -- */
@@ -46,6 +47,7 @@ include { MULTIQC               } from '../modules/nf-core/software/multiqc/main
 // Subworkflows: local
 include { INPUT_CHECK           } from '../subworkflows/local/input_check'        addParams( options: [:]                          )
 
+include { BCL2FASTQ             } from '../modules/local/bcl2fastq/main' addParams( options: modules['bcl2fastq']         )
 ////////////////////////////////////////////////////
 /* --           RUN MAIN WORKFLOW              -- */
 ////////////////////////////////////////////////////
@@ -56,56 +58,65 @@ def multiqc_report = []
 workflow UDITASFLOW {
 
     ch_software_versions = Channel.empty()
+    ch_bcl_raw = Channel.fromPath(params.bcl_raw)
+
+    BCL2FASTQ (
+        ch_bcl_raw
+    )
+
+    // Below are default:
 
     /*
      * SUBWORKFLOW: Read in samplesheet, validate and stage input files
      */
-    INPUT_CHECK ( 
-        ch_input
-    )
+    // INPUT_CHECK (
+    //     ch_input
+    // )
+    /*
+     * MODULE: Run FastQC
+     */
+    // FASTQC (
+    //     INPUT_CHECK.out.reads
+    // )
+    // ch_software_versions = ch_software_versions.mix(FASTQC.out.version.first().ifEmpty(null))
 
     /*
      * MODULE: Run FastQC
      */
-    FASTQC (
-        INPUT_CHECK.out.reads
-    )
-    ch_software_versions = ch_software_versions.mix(FASTQC.out.version.first().ifEmpty(null))
-    
 
     /*
      * MODULE: Pipeline reporting
      */
     // Get unique list of files containing version information
-    ch_software_versions
-        .map { it -> if (it) [ it.baseName, it ] }
-        .groupTuple()
-        .map { it[1][0] }
-        .flatten()
-        .collect()
-        .set { ch_software_versions }
-    GET_SOFTWARE_VERSIONS ( 
-        ch_software_versions
-    )
+    // ch_software_versions
+    //     .map { it -> if (it) [ it.baseName, it ] }
+    //     .groupTuple()
+    //     .map { it[1][0] }
+    //     .flatten()
+    //     .collect()
+    //     .set { ch_software_versions }
+    // GET_SOFTWARE_VERSIONS (
+    //     ch_software_versions
+    // )
 
     /*
      * MODULE: MultiQC
      */
-    workflow_summary    = Workflow.paramsSummaryMultiqc(workflow, params.summary_params)
-    ch_workflow_summary = Channel.value(workflow_summary)
+    // workflow_summary    = Workflow.paramsSummaryMultiqc(workflow, params.summary_params)
+    // ch_workflow_summary = Channel.value(workflow_summary)
+    //
+    // ch_multiqc_files = Channel.empty()
+    // ch_multiqc_files = ch_multiqc_files.mix(Channel.from(ch_multiqc_config))
+    // ch_multiqc_files = ch_multiqc_files.mix(ch_multiqc_custom_config.collect().ifEmpty([]))
+    // ch_multiqc_files = ch_multiqc_files.mix(ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'))
+    // ch_multiqc_files = ch_multiqc_files.mix(GET_SOFTWARE_VERSIONS.out.yaml.collect())
+    // ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
 
-    ch_multiqc_files = Channel.empty()
-    ch_multiqc_files = ch_multiqc_files.mix(Channel.from(ch_multiqc_config))
-    ch_multiqc_files = ch_multiqc_files.mix(ch_multiqc_custom_config.collect().ifEmpty([]))
-    ch_multiqc_files = ch_multiqc_files.mix(ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'))
-    ch_multiqc_files = ch_multiqc_files.mix(GET_SOFTWARE_VERSIONS.out.yaml.collect())
-    ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
-    
-    MULTIQC (
-        ch_multiqc_files.collect()
-    )
-    multiqc_report       = MULTIQC.out.report.toList()
-    ch_software_versions = ch_software_versions.mix(MULTIQC.out.version.ifEmpty(null))
+//     MULTIQC (
+//         ch_multiqc_files.collect()
+//     )
+//     multiqc_report       = MULTIQC.out.report.toList()
+//     ch_software_versions = ch_software_versions.mix(MULTIQC.out.version.ifEmpty(null))
 }
 
 ////////////////////////////////////////////////////
@@ -113,7 +124,7 @@ workflow UDITASFLOW {
 ////////////////////////////////////////////////////
 
 workflow.onComplete {
-    Completion.email(workflow, params, params.summary_params, projectDir, log, multiqc_report)
+    // Completion.email(workflow, params, params.summary_params, projectDir, log, multiqc_report)
     Completion.summary(workflow, params, log)
 }
 

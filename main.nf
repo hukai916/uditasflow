@@ -1,11 +1,11 @@
 #!/usr/bin/env nextflow
 /*
 ========================================================================================
-                         nf-core/uditasflow
+                         uditasflow
 ========================================================================================
- nf-core/uditasflow Analysis Pipeline.
+uditasflow Analysis Pipeline.
  #### Homepage / Documentation
- https://github.com/nf-core/uditasflow
+ https://github.com/hukai916/uditasflow
 ----------------------------------------------------------------------------------------
 */
 
@@ -20,7 +20,7 @@ log.info Utils.logo(workflow, params.monochrome_logs)
 def json_schema = "$projectDir/nextflow_schema.json"
 if (params.help) {
     // TODO nf-core: Update typical command used to run pipeline
-    def command = "nextflow run nf-core/uditasflow --input samplesheet.csv --genome GRCh37 -profile docker"
+    def command = "nextflow run uditasflow --input samplesheet.csv --genome GRCh37 -profile docker"
     log.info NfcoreSchema.paramsHelp(workflow, params, json_schema, command)
     log.info Workflow.citation(workflow)
     log.info Utils.dashedLine(params.monochrome_logs)
@@ -46,13 +46,13 @@ log.info Utils.dashedLine(params.monochrome_logs)
 /* --         VALIDATE PARAMETERS              -- */
 ////////////////////////////////////////////////////
 
-Workflow.validateMainParams(workflow, params, json_schema, log)
+// Workflow.validateMainParams(workflow, params, json_schema, log)
 
 ////////////////////////////////////////////////////
 /* --            RUN WORKFLOW(S)               -- */
 ////////////////////////////////////////////////////
 
-workflow  NFCORE_UDITASFLOW {
+workflow NFCORE_UDITASFLOW {
     include { UDITASFLOW } from './workflows/pipeline' addParams( summary_params: summary_params )
     UDITASFLOW ()
 }
