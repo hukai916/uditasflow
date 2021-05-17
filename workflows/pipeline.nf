@@ -68,13 +68,13 @@ workflow UDITASFLOW {
         ch_bcl_raw
     )
 
-    DEMULTIPLEX (
-      BCL2FASTQ.out.index1,
-      BCL2FASTQ.out.index2,
-      BCL2FASTQ.out.read1,
-      BCL2FASTQ.out.read2,
-      ch_sample_file
-    )
+    // DEMULTIPLEX (
+    //   BCL2FASTQ.out.index1,
+    //   BCL2FASTQ.out.index2,
+    //   BCL2FASTQ.out.read1,
+    //   BCL2FASTQ.out.read2,
+    //   ch_sample_file
+    // )
 
     // Below are default:
 
