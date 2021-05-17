@@ -23,7 +23,10 @@ process BCL2FASTQ {
     path bcl_raw
 
     output:
-    path "bcl_res/Undetermined_S0_L001_I1_001.fastq.gz", emit: bcl_res
+    path 'bcl_res/*_I1_*.fastq.gz', emit: index1
+    path 'bcl_res/*_I2_*.fastq.gz', emit: index2
+    path 'bcl_res/*_R1_*.fastq.gz', emit: read1
+    path 'bcl_res/*_R2_*.fastq.gz', emit: read2
 
     script:
     def software = getSoftwareName(task.process)
