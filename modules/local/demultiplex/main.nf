@@ -17,21 +17,28 @@ process DEMULTIPLEX {
     //     // container "quay.io/biocontainers/multiqc:1.9--pyh9f0ad1d_0"
     //     container "hukai916/bcl2fastq:2.20.0-centos7"
     // }
-    container "hukai916/bcl2fastq:2.20.0-centos7"
+    container "hukai916/r_demultiplexer:0.3"
 
     input:
-    path bcl_raw
+    path index1_file
+    path index2_file
+    path read1_file
+    path read2_file
+    path sample_file
 
     output:
-    path 'bcl_res/*_I1_*.fastq.gz', emit: index1
-    path 'bcl_res/*_I2_*.fastq.gz', emit: index2
-    path 'bcl_res/*_R1_*.fastq.gz', emit: read1
-    path 'bcl_res/*_R2_*.fastq.gz', emit: read2
+    path './res_demultiplex/*_I1_*.fastq.gz', emit: index1
+    path './res_demultiplex/*_I2_*.fastq.gz', emit: index2
+    path './res_demultiplex/*_R1_*.fastq.gz', emit: read1
+    path './res_demultiplex/*_R2_*.fastq.gz', emit: read2
 
     script:
     def software = getSoftwareName(task.process)
     """
-    bcl2fastq $options.args -R $bcl_raw -o bcl_res
-    bcl2fastq --version | sed -e "s/bcl2fastq //g" > ${software}.version.txt
+    Rscript demultiplexer.R --index1_file=$index1_file \
+                            --index2_file=$index2_file \
+                            --read1_file=$read1_file \
+                            --read2_file=$read2_file \
+                            --sample_file=$sample_file
     """
 }

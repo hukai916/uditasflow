@@ -48,6 +48,9 @@ include { MULTIQC               } from '../modules/nf-core/software/multiqc/main
 include { INPUT_CHECK           } from '../subworkflows/local/input_check'        addParams( options: [:]                          )
 
 include { BCL2FASTQ             } from '../modules/local/bcl2fastq/main' addParams( options: modules['bcl2fastq']         )
+
+include { DEMULTIPLEX           } from '../modules/local/demultiplex/main' addParams( options: modules['demultiplex']         )
+
 ////////////////////////////////////////////////////
 /* --           RUN MAIN WORKFLOW              -- */
 ////////////////////////////////////////////////////
@@ -59,9 +62,18 @@ workflow UDITASFLOW {
 
     ch_software_versions = Channel.empty()
     ch_bcl_raw = Channel.fromPath(params.bcl_raw)
+    ch_sample_file = Channel.fromPath(param.sample_file)
 
     BCL2FASTQ (
         ch_bcl_raw
+    )
+
+    DEMULTIPLEX (
+      BCL2FASTQ.out.index1,
+      BCL2FASTQ.out.index2,
+      BCL2FASTQ.out.read1,
+      BCL2FASTQ.out.read2,
+      ch_sample_file
     )
 
     // Below are default:
