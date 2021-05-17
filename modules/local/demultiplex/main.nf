@@ -35,7 +35,7 @@ process DEMULTIPLEX {
     script:
     def software = getSoftwareName(task.process)
     """
-    Rscript demultiplexer.R --index1_file=$index1_file \
+    demultiplexer.R --index1_file=$index1_file \
                             --index2_file=$index2_file \
                             --read1_file=$read1_file \
                             --read2_file=$read2_file \
