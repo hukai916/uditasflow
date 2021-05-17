@@ -1,0 +1,34 @@
+digraph "pipeline_dag_20210517_184523" {
+p0 [shape=point,label="",fixedsize=true,width=0.1,xlabel="Channel.empty"];
+p1 [shape=point];
+p0 -> p1 [label="ch_multiqc_custom_config"];
+
+p2 [shape=point,label="",fixedsize=true,width=0.1,xlabel="Channel.empty"];
+p3 [shape=point];
+p2 -> p3 [label="ch_software_versions"];
+
+p4 [shape=point,label="",fixedsize=true,width=0.1,xlabel="Channel.fromPath"];
+p7 [label="NFCORE_UDITASFLOW:UDITASFLOW:BCL2FASTQ"];
+p4 -> p7 [label="ch_bcl_raw"];
+
+p5 [shape=point,label="",fixedsize=true,width=0.1,xlabel="Channel.fromPath"];
+p6 [shape=point];
+p5 -> p6 [label="ch_sample_file"];
+
+p7 [label="NFCORE_UDITASFLOW:UDITASFLOW:BCL2FASTQ"];
+p11 [shape=point];
+p7 -> p11;
+
+p7 [label="NFCORE_UDITASFLOW:UDITASFLOW:BCL2FASTQ"];
+p10 [shape=point];
+p7 -> p10;
+
+p7 [label="NFCORE_UDITASFLOW:UDITASFLOW:BCL2FASTQ"];
+p9 [shape=point];
+p7 -> p9;
+
+p7 [label="NFCORE_UDITASFLOW:UDITASFLOW:BCL2FASTQ"];
+p8 [shape=point];
+p7 -> p8;
+
+}
