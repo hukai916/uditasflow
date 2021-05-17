@@ -1,3 +1,4 @@
+#!/usr/bin/env Rscript
 # Demultiplex samples given index files and read files
 library(optparse)
 option_list = list(
