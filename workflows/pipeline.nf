@@ -100,7 +100,7 @@ workflow UDITASFLOW {
     PARSEUMI.out.umi.collect().toSortedList().view()
 
     println "For demultiplex:"
-    DEMULTIPLEX.out.read1.collect().toSortedList().view()
+    DEMULTIPLEX.out.read1.collect().filter( ~/*undetermined*.fastq.gz/ ).toSortedList().view()
     // Below are default:
 
     /*
