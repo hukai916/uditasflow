@@ -25,7 +25,7 @@ process PARSEUMI {
     val umi_end
 
     output:
-    path 'res_umi/umi_' + index_file, emit: umi
+    path 'res_umi/umi_*.fastq.gz', emit: umi
 
     script:
     def software = getSoftwareName(task.process)
