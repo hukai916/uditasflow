@@ -101,7 +101,7 @@ workflow UDITASFLOW {
 
     println "For demultiplex:"
     DEMULTIPLEX.out.read1.collect()
-                .filter( ~/\*undetermined*.fastq.gz/ )
+                .filter( ~/*undetermined*.fastq.gz/ )
                 .toSortedList().view()
     // Below are default:
 
