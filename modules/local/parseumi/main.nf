@@ -21,6 +21,8 @@ process PARSEUMI {
 
     input:
     path index_file
+    val umi_start
+    val umi_end
 
     output:
     path './res_umi/umi_*.fastq.gz', emit: umi

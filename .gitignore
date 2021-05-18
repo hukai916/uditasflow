@@ -6,4 +6,6 @@ results/
 tests/
 testing/
 testing*
+result_test/
+result_test/*
 *.pyc
