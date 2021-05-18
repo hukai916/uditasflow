@@ -80,7 +80,7 @@ workflow UDITASFLOW {
     if (params.umi_index == "index1") {
       index = DEMULTIPLEX.out.index1
     } else {
-      index = DEMULTIPLEX.out.index2
+      index = DEMULTIPLEX.out.index2.collect()
       index.view()
     }
     PARSEUMI (index,
