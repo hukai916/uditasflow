@@ -49,8 +49,9 @@ include { INPUT_CHECK           } from '../subworkflows/local/input_check'      
 
 include { BCL2FASTQ             } from '../modules/local/bcl2fastq/main' addParams( options: modules['bcl2fastq']         )
 
-include { DEMULTIPLEX           } from '../modules/local/demultiplex/main' addParams( options: modules['demultiplex']         )
+include { DEMULTIPLEX           } from '../modules/local/demultiplex/main' addParams( options: modules['demultiplex']       )
 
+include { PARSEUMI              } from '../modules/local/parseumi/main' addParams( options: modules['parseumi']          )
 ////////////////////////////////////////////////////
 /* --           RUN MAIN WORKFLOW              -- */
 ////////////////////////////////////////////////////
@@ -76,6 +77,15 @@ workflow UDITASFLOW {
       ch_sample_file
     )
 
+    if (params.umi_index == "index1") {
+      index = DEMULTIPLEX.out.index1.flatten()
+    } else {
+      index = DEMULTIPLEX.out.index2.flatten()
+    }
+    PARSEUMI (index,
+      params.umi_start,
+      params.umi_end
+    )
     // Below are default:
 
     /*
