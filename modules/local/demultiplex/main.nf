@@ -27,7 +27,7 @@ process DEMULTIPLEX {
     path sample_file
 
     output:
-    path './res_demultiplex/index1_*.fastq.gz', emit: index1
+    path 'res_demultiplex/index1_*.fastq.gz', emit: index1
     path 'res_demultiplex/index2_*.fastq.gz', emit: index2
     path 'res_demultiplex/*_R1*.fastq.gz', emit: read1
     path 'res_demultiplex/*_R2*.fastq.gz', emit: read2
