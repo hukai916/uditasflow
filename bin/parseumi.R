@@ -34,9 +34,8 @@ library(dplyr)
 library(stringr)
 library(readr)
 
-index_stream <- FastqStreamer(index_file, reads_per_chunk)
-
 parse_umi <- function(index_file, umi_start, umi_end, reads_per_chunk, path_output_fq) {
+	
 	## Check if output folder already exists:
 	if (file.exists(path_output_fq)) {
 		stop("Result folder already exists! Please delete it first!")
@@ -45,6 +44,7 @@ parse_umi <- function(index_file, umi_start, umi_end, reads_per_chunk, path_outp
 		stop("can't create output folder, check write permission!")
 	}
 	read_chunk <- 1
+	index_stream <- FastqStreamer(index_file, reads_per_chunk)
 	while (1) {
 		if (!(length(index <- yield(index_stream)))) {
 			# Remove "tem_" in front of the output name by renaming the tem files:
