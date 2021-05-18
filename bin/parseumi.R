@@ -2,11 +2,11 @@
 # Parse out UMI fastq file given index file and umi position.
 library(optparse)
 
-index_file <- "/Users/kaihu/Projects/workflow/uditasflow/result_test/res_demultiplex/index2_S1.fastq.gz"
-path_output_fq <- "./res_umi"
-umi_start <- 1
-umi_end 	<- 9 
-reads_per_chunk <- 10000
+# index_file <- "/Users/kaihu/Projects/workflow/uditasflow/result_test/res_demultiplex/index2_S1.fastq.gz"
+# path_output_fq <- "./res_umi"
+# umi_start <- 1
+# umi_end 	<- 9 
+# reads_per_chunk <- 10000
 
 option_list = list(
 	make_option(c("--index_file"), type="character", default=NULL, 
