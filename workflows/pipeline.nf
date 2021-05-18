@@ -83,6 +83,7 @@ workflow UDITASFLOW {
       index = DEMULTIPLEX.out.index2
     }
 
+    println "TEST HERE"
     index.collect().view()
 
     // PARSEUMI (index,
