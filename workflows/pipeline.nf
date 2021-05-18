@@ -93,6 +93,9 @@ workflow UDITASFLOW {
       params.umi_end
     )
 
+    res = []
+
+
     println "For PARSEUMI:"
     PARSEUMI.out.umi.collect().toSortedList().view()
 
