@@ -52,6 +52,10 @@ include { BCL2FASTQ             } from '../modules/local/bcl2fastq/main' addPara
 include { DEMULTIPLEX           } from '../modules/local/demultiplex/main' addParams( options: modules['demultiplex']       )
 
 include { PARSEUMI              } from '../modules/local/parseumi/main' addParams( options: modules['parseumi']          )
+
+include { COLLAPSEUMI           } from '../modules/local/collapseumi/main' addParams( options: modules['collapseumi']       )
+
+
 ////////////////////////////////////////////////////
 /* --           RUN MAIN WORKFLOW              -- */
 ////////////////////////////////////////////////////
@@ -64,6 +68,7 @@ workflow UDITASFLOW {
     ch_software_versions = Channel.empty()
     ch_bcl_raw = Channel.fromPath(params.bcl_raw)
     ch_sample_file = Channel.fromPath(params.sample_file)
+
 
     BCL2FASTQ (
         ch_bcl_raw
@@ -87,6 +92,12 @@ workflow UDITASFLOW {
       params.umi_start,
       params.umi_end
     )
+
+    println "For PARSEUMI:"
+    PARSEUMI.out.umi.collect().toSortedList().view()
+
+    println "For demultiplex:"
+    DEMULTIPLEX.out.read1.collect().toSortedList().view()
     // Below are default:
 
     /*
