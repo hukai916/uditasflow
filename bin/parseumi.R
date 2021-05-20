@@ -5,7 +5,7 @@ library(optparse)
 # index_file <- "/Users/kaihu/Projects/workflow/uditasflow/result_test/res_demultiplex/index2_S1.fastq.gz"
 # path_output_fq <- "./res_umi"
 # umi_start <- 1
-# umi_end 	<- 9 
+# umi_end 	<- 9
 # reads_per_chunk <- 10000
 
 option_list = list(
@@ -40,7 +40,7 @@ parse_umi <- function(index_file, umi_start, umi_end, reads_per_chunk, path_outp
 	if (file.exists(path_output_fq)) {
 		stop("Result folder already exists! Please delete it first!")
 	}
-	if (!(dir.create(file.path(opt$path_output_fq)))) {
+	if (!(dir.create(file.path(path_output_fq)))) {
 		stop("can't create output folder, check write permission!")
 	}
 	read_chunk <- 1
@@ -59,7 +59,7 @@ parse_umi <- function(index_file, umi_start, umi_end, reads_per_chunk, path_outp
 		}
 		
 		index@sread <- str_sub(index@sread, start = umi_start, end = umi_end) %>% DNAStringSet()
-		index@quality <- str_sub(index@quality, start = umi_start, end = umi_end) %>% BStringSet()
+		index@quality@quality <- str_sub(index@quality@quality, start = umi_start, end = umi_end) %>% BStringSet()
 		
 		writeFastq(index, paste0(path_output_fq, "/tem_umi_", basename(index_file)), mode = "a")
 	}
