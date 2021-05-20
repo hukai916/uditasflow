@@ -51,7 +51,7 @@ demultiplexer <- function(index1_file, index2_file, read1_file, read2_file, samp
 	if (file.exists(path_output_fq)) {
 		stop("Result folder already exists! Please delete it first!")
 	}
-	if (!(dir.create(file.path(opt$path_output_fq)))) {
+	if (!(dir.create(file.path(path_output_fq)))) {
 		stop("can't create output folder, check write permission!")
 	}
 	
