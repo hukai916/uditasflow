@@ -59,6 +59,8 @@ parse_umi <- function(index_file, umi_start, umi_end, reads_per_chunk, path_outp
 		}
 		
 		index@sread <- str_sub(index@sread, start = umi_start, end = umi_end) %>% DNAStringSet()
+		index@quality <- str_sub(index@quality, start = umi_start, end = umi_end) %>% BStringSet()
+		
 		writeFastq(index, paste0(path_output_fq, "/tem_umi_", basename(index_file)), mode = "a")
 	}
 }

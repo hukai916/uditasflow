@@ -96,8 +96,8 @@ workflow UDITASFLOW {
     res = []
 
 
-    println "For PARSEUMI:"
-    PARSEUMI.out.umi.collect().toSortedList().view()
+    // println "For PARSEUMI:"
+    // PARSEUMI.out.umi.collect().toSortedList().view()
 
     println "For demultiplex:"
     DEMULTIPLEX.out.read1.collect()

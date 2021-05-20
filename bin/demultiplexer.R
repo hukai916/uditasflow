@@ -61,6 +61,7 @@ demultiplexer <- function(index1_file, index2_file, read1_file, read2_file, samp
 	read2_count <- countLines(read2_file) / 4
 	
 	## Data sanity check:
+	### May also need to make sure the order of each record is the same across index and read files (likely unnecessary), but not implemented here. THis can be added inside the while loop by checking the names of each record for each chunk.
 	message("Performing data sanity check ...")
 	if (length(unique(c(index1_count, index2_count, read1_count, read2_count))) == 1) {
 		message(paste0("Read record numbers are equal...", index1_count))
