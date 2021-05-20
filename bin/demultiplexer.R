@@ -190,7 +190,7 @@ demultiplexer <- function(index1_file, index2_file, read1_file, read2_file, samp
 			pos_determined <<- unique(c(pos_determined, pos))
 			
 			writeFastq(read_index_sub_R1, paste0(path_output_fq, "/tem_", sample, "_R1.fastq.gz"), mode = "a")
-			writeFastq(read_index_sub_R1, paste0(path_output_fq, "/tem_", sample, "_R2.fastq.gz"), mode = "a")
+			writeFastq(read_index_sub_R2, paste0(path_output_fq, "/tem_", sample, "_R2.fastq.gz"), mode = "a")
 			writeFastq(read_index_sub_index1, paste0(path_output_fq, "/tem_index1_", sample, ".fastq.gz"), mode = "a")
 			writeFastq(read_index_sub_index2, paste0(path_output_fq, "/tem_index2_", sample, ".fastq.gz"), mode = "a")
 		})
