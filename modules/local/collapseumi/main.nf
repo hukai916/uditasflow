@@ -23,20 +23,17 @@ process COLLAPSEUMI {
     path umi_file
     path read1
     path read2
-    val mismatch1
-    val mismatch2
 
     output:
-    path 'res_collapse_umi/umi_*R1.fastq.gz', emit: umi_read1
-    path 'res_collapse_umi/umi_*R2.fastq.gz', emit: umi_read2
+    path 'res_collapseumi/*R1.fastq.gz', emit: umi_read1
+    path 'res_collapseumi/*R2.fastq.gz', emit: umi_read2
 
     script:
     def software = getSoftwareName(task.process)
     """
-    // collapseumi.R --umi_file=$umi_file \
-    //             --read1=$read1 \
-    //             --read2=$read2 \
-    //             --mismatch1=$mismatch1 \
-    //             --mismatch2=$mismatch2
+    collapseumi.R $options.args \
+                --umi_file=$umi_file \
+                --read1=$read1 \
+                --read2=$read2
     """
 }

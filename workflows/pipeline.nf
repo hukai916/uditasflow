@@ -71,7 +71,7 @@ workflow UDITASFLOW {
 
 
     BCL2FASTQ (
-        ch_bcl_raw
+      ch_bcl_raw
     )
 
     DEMULTIPLEX (
