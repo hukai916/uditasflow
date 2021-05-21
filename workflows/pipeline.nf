@@ -120,7 +120,7 @@ workflow UDITASFLOW {
       input:
         tuple path(umi), path(read1), path(read2) from collapseumi_input_ch
 
-      "echo $umi, $read1, $read2"
+      "echo $umi, $read1, $read2, testrun"
     }
     // COLLAPSEUMI (
     //   umi_index
