@@ -95,7 +95,7 @@ workflow UDITASFLOW {
 
     // appedn tuple (umi_file, read1, read2) to res list and then pass each element of res to next processes
     // so that umi_file, read1, read2 are gunranteed to be matched for each sample.
-    tem_umi   = PARSEUMI.out.umi.collect().toSortedList().view()
+    tem_umi   = PARSEUMI.out.umi.collect().toSortedList()
     tem_read1 = DEMULTIPLEX.out.read1.collect().toSortedList()
     tem_read2 = DEMULTIPLEX.out.read2.collect().toSortedList()
 
