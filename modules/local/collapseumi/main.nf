@@ -20,9 +20,7 @@ process COLLAPSEUMI {
     container "hukai916/r_demultiplexer:0.4"
 
     input:
-    path umi_file
-    path read1
-    path read2
+    tuple path(umi_file), path(read1), path(read2)
 
     output:
     path 'res_collapseumi/*R1.fastq.gz', emit: umi_read1

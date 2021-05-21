@@ -99,16 +99,27 @@ workflow UDITASFLOW {
     tem_read1 = DEMULTIPLEX.out.read1.collect().toSortedList()
     tem_read2 = DEMULTIPLEX.out.read2.collect().toSortedList()
 
-    println tem_umi.size
+    collapseumi_input_list = []
 
-    // collapseumi_input = []
-    //
-    // for (i in 0..(tem_umi.size - 1)) {
-    //   tem = [ordered_index.value[i], ordered_fastq.value[i]]
-    //   res.add(tem)
-    // }
+    for (i in 0..(tem_umi.value.size - 1)) {
+      tem = [tem_umi.value[i], tem_read1.value[i], tem_read2.value[i]]
+      collapseumi_input_list.add(tem)
+    }
 
+    collapseumi_input_ch = Channel.from(collapseumi_input_list)
 
+    process test {
+      echo true
+      input:
+        tuple path(umi), path(read1), path(read2) from collapseumi_input_ch
+
+      "echo $umi, $read1, $read2"
+    }
+    // COLLAPSEUMI (
+    //   umi_index
+    //   read1_file
+    //   read2_file
+    // )
 
 
     // println res

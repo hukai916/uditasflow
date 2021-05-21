@@ -9,6 +9,9 @@ ordered_index = Channel.from(index)
 ordered_fastq = Channel.from(fastq)
         .toSortedList()
 
+// println ordered_index.value.size
+//
+
 res = []
 
 for (i in 0..(index.size - 1)) {
@@ -16,6 +19,15 @@ for (i in 0..(index.size - 1)) {
   res.add(tem)
 }
 
-println res
+// println res
 
-Channel.from(res).view()
+intest = Channel.from(res)
+
+process test {
+  echo true
+
+  input:
+    tuple val(x), val(y) from intest
+
+  "echo $x $y"
+}
