@@ -96,11 +96,11 @@ workflow UDITASFLOW {
 
     ch1 = Channel.fromPath(PARSEUMI.out.umi.toSortedList()).view()
 
-    TEST (
-      PARSEUMI.out.umi.collect().toSortedList(),
-      DEMULTIPLEX.out.index1.collect().toSortedList(),
-      DEMULTIPLEX.out.index2.collect().toSortedList()
-      )
+    // TEST (
+    //   PARSEUMI.out.umi.collect().toSortedList(),
+    //   DEMULTIPLEX.out.index1.collect().toSortedList(),
+    //   DEMULTIPLEX.out.index2.collect().toSortedList()
+    //   )
 
 
     // PARSEUMI.out.umi.onComplete {
