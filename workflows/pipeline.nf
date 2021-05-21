@@ -111,7 +111,7 @@ workflow UDITASFLOW {
 
 
 
-    println res
+    // println res
 
     // println "For PARSEUMI:"
     // PARSEUMI.out.umi.collect().toSortedList().view()
