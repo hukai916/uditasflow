@@ -100,7 +100,9 @@ workflow UDITASFLOW {
         path x from PARSEUMI.out.umi.collect()
 
       script:
-        "echo TETDONE$x"
+        """
+        echo TETDONE$x
+        """
     }
 
 
