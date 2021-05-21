@@ -55,6 +55,7 @@ include { PARSEUMI              } from '../modules/local/parseumi/main'         
 
 include { COLLAPSEUMI           } from '../modules/local/collapseumi/main'        addParams( options: modules['collapseumi']       )
 
+include { TEST                  } from '../modules/local/test/main'               addParams( options: modules['test']              )
 
 ////////////////////////////////////////////////////
 /* --           RUN MAIN WORKFLOW              -- */
@@ -93,22 +94,9 @@ workflow UDITASFLOW {
       params.umi_end
     )
 
-    process test {
-      echo true
-
-      input:
-        path x from PARSEUMI.out.umi.collect()
-
-      output:
-        path "TEST.txt"
-
-      script:
-        """
-        echo TETDONE$x > "TEST.txt"
-        """
-    }
-
-
+    TEST (
+      PARSEUMI.out.umi
+      )
 
 
     // PARSEUMI.out.umi.onComplete {
