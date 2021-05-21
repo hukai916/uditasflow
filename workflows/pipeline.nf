@@ -102,7 +102,7 @@ workflow UDITASFLOW {
     collapseumi_input_list = []
 
     // for (i in 0..(tem_umi.value.size - 1)) {
-    if (tem_umi && tem_read1 && tem_read2) {
+    if (tem_umi.value && tem_read1.value && tem_read2.value) {
       println "tem_umi ready ..."
     for (i in 0..(8 - 1)) {
       tem = [tem_umi.value[i], tem_read1.value[i], tem_read2.value[i]]
