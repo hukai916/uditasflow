@@ -101,9 +101,11 @@ workflow UDITASFLOW {
     DEMULTIPLEX.out.read1.collect().toSortedList().view()
                 // .filter( ~/undetermined*.fastq.gz/ )
 
-    COLLAPSEUMI (
-
-    )
+    // COLLAPSEUMI (
+    //   umi_index
+    //   read1_file
+    //   read2_file
+    // )
 
 
 
