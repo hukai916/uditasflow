@@ -97,13 +97,13 @@ workflow UDITASFLOW {
       echo true
 
       input:
-        path PARSEUMI.out.umi.collect()
+        path x from PARSEUMI.out.umi.collect()
 
       script:
-        "echo 'test proess done'"
+        "echo TETDONE$x"
     }
 
-    
+
     // PARSEUMI.out.umi.onComplete {
     //   // tem_umi   = PARSEUMI.out.umi.collect().toSortedList()
     //   // tem_read1 = DEMULTIPLEX.out.read1.collect().toSortedList()
