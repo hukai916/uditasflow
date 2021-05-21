@@ -55,14 +55,14 @@ log.info Utils.dashedLine(params.monochrome_logs)
 workflow NFCORE_UDITASFLOW {
     include { UDITASFLOW } from './workflows/pipeline' addParams( summary_params: summary_params )
     UDITASFLOW ()
-    UDITASFLOW.onComplete {
-      println "Finished"
-    }
-
 }
 
 workflow {
   NFCORE_UDITASFLOW ()
+}
+
+workflow.onComplete {
+  println "Finished"
 }
 
 ////////////////////////////////////////////////////
