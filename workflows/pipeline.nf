@@ -95,12 +95,17 @@ workflow UDITASFLOW {
 
     res = []
 
-
-    println "For PARSEUMI:"
-    PARSEUMI.out.umi.collect().toSortedList().view()
+    // println "For PARSEUMI:"
+    // PARSEUMI.out.umi.collect().toSortedList().view()
 
     DEMULTIPLEX.out.read1.collect().toSortedList().view()
                 // .filter( ~/undetermined*.fastq.gz/ )
+
+    COLLAPSEUMI (
+
+    )
+
+
 
     // Below are default:
 
