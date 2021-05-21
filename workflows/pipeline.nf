@@ -136,19 +136,19 @@ workflow UDITASFLOW {
 
 
 
-    process test {
-      echo true
-
-
-      input:
-
-        tuple path(umi), path(read1), path(read2) from collapseumi_input_ch
-
-      when:
-
-
-      "echo $umi, $read1, $read2, testrun"
-    }
+    // process test {
+    //   echo true
+    //
+    //
+    //   input:
+    //
+    //     tuple path(umi), path(read1), path(read2) from collapseumi_input_ch
+    //
+    //   when:
+    //
+    //
+    //   "echo $umi, $read1, $read2, testrun"
+    // }
     // COLLAPSEUMI (
     //   umi_index
     //   read1_file
