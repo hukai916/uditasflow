@@ -112,6 +112,14 @@ workflow UDITASFLOW {
         println "wait ..."
       }
 
+      process test {
+        echo true
+
+        input:
+          tuple path(umi), path(read1), path(read2) from collapseumi_input_ch
+
+        "echo TEST:$umi, $read1, $read2"
+      }
     }
 
     // appedn tuple (umi_file, read1, read2) to res list and then pass each element of res to next processes
