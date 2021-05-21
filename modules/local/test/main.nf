@@ -9,7 +9,6 @@ process TEST {
     publishDir "${params.outdir}",
         mode: params.publish_dir_mode,
         saveAs: { filename -> saveFiles(filename: filename, options: params.options, publish_dir: getSoftwareName(task.process), publish_id: '') }
-    echo true
     // conda (params.enable_conda ? "dranew:bcl2fastq=2.19.0" : null)
     // if (workflow.containerEngine == 'singularity' && !params.singularity_pull_docker_container) {
     //     container "url_to_singularity_image"

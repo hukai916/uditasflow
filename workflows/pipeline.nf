@@ -95,7 +95,7 @@ workflow UDITASFLOW {
     )
 
     TEST (
-      PARSEUMI.out.umi
+      PARSEUMI.out.umi.collect()
       )
 
 
