@@ -19,7 +19,9 @@ process TEST {
     container "hukai916/r_demultiplexer:0.4"
 
     input:
-    path x
+    path umi
+    path read1
+    path read2
 
     output:
     path "TEST.txt"
