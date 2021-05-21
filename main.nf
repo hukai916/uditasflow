@@ -58,11 +58,15 @@ workflow NFCORE_UDITASFLOW {
 }
 
 workflow {
-  NFCORE_UDITASFLOW ()
+  main:
+    NFCORE_UDITASFLOW ()
+  emit:
+    PARSEUMI.out
 }
 
 workflow.onComplete {
   println "Finished"
+  println PARSEUMI.out
 }
 
 ////////////////////////////////////////////////////
