@@ -93,32 +93,59 @@ workflow UDITASFLOW {
       params.umi_end
     )
 
+    PARSEUMI.out.umi.onComplete: {
+      tem_umi   = PARSEUMI.out.umi.collect().toSortedList()
+      tem_read1 = DEMULTIPLEX.out.read1.collect().toSortedList()
+      tem_read2 = DEMULTIPLEX.out.read2.collect().toSortedList()
+
+      collapseumi_input_list = []
+
+      // for (i in 0..(tem_umi.value.size - 1)) {
+      if (tem_umi.value && tem_read1.value && tem_read2.value) {
+        println "tem_umi ready ..."
+      for (i in 0..(8 - 1)) {
+        tem = [tem_umi.value[i], tem_read1.value[i], tem_read2.value[i]]
+        collapseumi_input_list.add(tem)
+      }
+      collapseumi_input_ch = Channel.from(collapseumi_input_list)
+      } else {
+        println "wait ..."
+      }
+
+    }
+
     // appedn tuple (umi_file, read1, read2) to res list and then pass each element of res to next processes
     // so that umi_file, read1, read2 are gunranteed to be matched for each sample.
-    tem_umi   = PARSEUMI.out.umi.collect().toSortedList()
-    tem_read1 = DEMULTIPLEX.out.read1.collect().toSortedList()
-    tem_read2 = DEMULTIPLEX.out.read2.collect().toSortedList()
-
-    collapseumi_input_list = []
-
-    // for (i in 0..(tem_umi.value.size - 1)) {
-    if (tem_umi.value && tem_read1.value && tem_read2.value) {
-      println "tem_umi ready ..."
-    for (i in 0..(8 - 1)) {
-      tem = [tem_umi.value[i], tem_read1.value[i], tem_read2.value[i]]
-      collapseumi_input_list.add(tem)
-    }
-    collapseumi_input_ch = Channel.from(collapseumi_input_list)
-    } else {
-      println "wait ..."
-    }
+    // tem_umi   = PARSEUMI.out.umi.collect().toSortedList()
+    // tem_read1 = DEMULTIPLEX.out.read1.collect().toSortedList()
+    // tem_read2 = DEMULTIPLEX.out.read2.collect().toSortedList()
+    //
+    // collapseumi_input_list = []
+    //
+    // // for (i in 0..(tem_umi.value.size - 1)) {
+    // if (tem_umi.value && tem_read1.value && tem_read2.value) {
+    //   println "tem_umi ready ..."
+    // for (i in 0..(8 - 1)) {
+    //   tem = [tem_umi.value[i], tem_read1.value[i], tem_read2.value[i]]
+    //   collapseumi_input_list.add(tem)
+    // }
+    // collapseumi_input_ch = Channel.from(collapseumi_input_list)
+    // } else {
+    //   println "wait ..."
+    // }
 
 
 
     process test {
       echo true
+
+
       input:
+
         tuple path(umi), path(read1), path(read2) from collapseumi_input_ch
+
+      when:
+
 
       "echo $umi, $read1, $read2, testrun"
     }
