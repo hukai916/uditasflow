@@ -95,8 +95,8 @@ workflow UDITASFLOW {
     )
 
     TEST (
-      PARSEUMI.out.umi.collect().toSortedList()
-      DEMULTIPLEX.out.index1.collect().toSortedList()
+      PARSEUMI.out.umi.collect().toSortedList(),
+      DEMULTIPLEX.out.index1.collect().toSortedList(),
       DEMULTIPLEX.out.index2.collect().toSortedList()
       )
 
