@@ -47,13 +47,13 @@ include { MULTIQC               } from '../modules/nf-core/software/multiqc/main
 // Subworkflows: local
 include { INPUT_CHECK           } from '../subworkflows/local/input_check'        addParams( options: [:]                          )
 
-include { BCL2FASTQ             } from '../modules/local/bcl2fastq/main' addParams( options: modules['bcl2fastq']         )
+include { BCL2FASTQ             } from '../modules/local/bcl2fastq/main'          addParams( options: modules['bcl2fastq']         )
 
-include { DEMULTIPLEX           } from '../modules/local/demultiplex/main' addParams( options: modules['demultiplex']       )
+include { DEMULTIPLEX           } from '../modules/local/demultiplex/main'        addParams( options: modules['demultiplex']       )
 
-include { PARSEUMI              } from '../modules/local/parseumi/main' addParams( options: modules['parseumi']          )
+include { PARSEUMI              } from '../modules/local/parseumi/main'           addParams( options: modules['parseumi']          )
 
-include { COLLAPSEUMI           } from '../modules/local/collapseumi/main' addParams( options: modules['collapseumi']       )
+include { COLLAPSEUMI           } from '../modules/local/collapseumi/main'        addParams( options: modules['collapseumi']       )
 
 
 ////////////////////////////////////////////////////
@@ -96,12 +96,12 @@ workflow UDITASFLOW {
     res = []
 
 
-    // println "For PARSEUMI:"
-    // PARSEUMI.out.umi.collect().toSortedList().view()
+    println "For PARSEUMI:"
+    PARSEUMI.out.umi.collect().toSortedList().view()
 
-    DEMULTIPLEX.out.read1.collect()
-                .filter( ~/undetermined*.fastq.gz/ )
-                .toSortedList().view()
+    DEMULTIPLEX.out.read1.collect().toSortedList().view()
+                // .filter( ~/undetermined*.fastq.gz/ )
+
     // Below are default:
 
     /*
