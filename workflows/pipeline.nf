@@ -101,7 +101,8 @@ workflow UDITASFLOW {
 
     collapseumi_input_list = []
 
-    for (i in 0..(tem_umi.value.size - 1)) {
+    // for (i in 0..(tem_umi.value.size - 1)) {
+    for (i in 0..(8 - 1)) {
       tem = [tem_umi.value[i], tem_read1.value[i], tem_read2.value[i]]
       collapseumi_input_list.add(tem)
     }
