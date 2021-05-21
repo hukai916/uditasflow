@@ -99,11 +99,16 @@ workflow UDITASFLOW {
       input:
         path x from PARSEUMI.out.umi.collect()
 
+      output:
+        path "TEST.txt"
+
       script:
         """
-        echo TETDONE$x
+        echo TETDONE$x > "TEST.txt"
         """
     }
+
+
 
 
     // PARSEUMI.out.umi.onComplete {
