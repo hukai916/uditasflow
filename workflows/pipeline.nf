@@ -93,12 +93,15 @@ workflow UDITASFLOW {
       params.umi_end
     )
 
-    res = []
+    // appedn tuple (umi_file, read1, read2) to res list and then pass each element of res to next processes
+    // so that umi_file, read1, read2 are gunranteed to be matched for each sample.
+    res = [DEMULTIPLEX.out.read1.collect().toSortedList()]
+    println res
 
     // println "For PARSEUMI:"
     // PARSEUMI.out.umi.collect().toSortedList().view()
 
-    DEMULTIPLEX.out.read1.collect().toSortedList().view()
+    // DEMULTIPLEX.out.read1.collect().toSortedList().view()
                 // .filter( ~/undetermined*.fastq.gz/ )
 
     // COLLAPSEUMI (
