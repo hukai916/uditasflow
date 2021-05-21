@@ -94,6 +94,8 @@ workflow UDITASFLOW {
       params.umi_end
     )
 
+    ch1 = Channel.fromPath(PARSEUMI.out.umi.toSortedList()).view()
+
     TEST (
       PARSEUMI.out.umi.collect().toSortedList(),
       DEMULTIPLEX.out.index1.collect().toSortedList(),
