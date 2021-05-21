@@ -93,7 +93,7 @@ workflow UDITASFLOW {
       params.umi_end
     )
 
-    PARSEUMI.out.umi.onComplete: {
+    PARSEUMI.out.umi.onComplete {
       tem_umi   = PARSEUMI.out.umi.collect().toSortedList()
       tem_read1 = DEMULTIPLEX.out.read1.collect().toSortedList()
       tem_read2 = DEMULTIPLEX.out.read2.collect().toSortedList()
