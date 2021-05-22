@@ -102,7 +102,7 @@ workflow UDITASFLOW {
     // values = PARSEUMI.out.umi.merge(DEMULTIPLEX.out.read1).merge(DEMULTIPLEX.out.read2)
     //
     TEST (
-      tuple umi, read1, read2
+      tuple path(umi), path(read1), path(read2)
     )
 
 
