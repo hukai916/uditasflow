@@ -95,7 +95,7 @@ workflow UDITASFLOW {
     )
 
     PARSEUMI.out.umi.toSortedList( { a, b -> a.getName() <=> b.getName() } ).flatten()
-    DEMULTIPLEX.out.read1.toSortedList().filter( ~/.*S1_R1.*/ ).flatten().view()
+    DEMULTIPLEX.out.read1.filter( ~/.*S1_R1.*/ ).toSortedList().flatten().view()
 
     umi = PARSEUMI.out.umi.toSortedList().flatten()
     read1 = DEMULTIPLEX.out.read1.toSortedList().flatten()
