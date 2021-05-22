@@ -96,7 +96,7 @@ workflow UDITASFLOW {
 
     umi = PARSEUMI.out.umi.toSortedList( { a, b -> a.getName() <=> b.getName() } ).flatten()
     // Note that must sort by filename since path is full path, and files are distributed in random folders under work dir.
-    read1 = DEMULTIPLEX.out.read1.toSortedList( { a, b -> a.getName() <=> b.getName() } ).flatten().filter( ~/^(?!.*undetermined).*/ )
+    read1 = DEMULTIPLEX.out.read1.toSortedList( { a, b -> a.getName() <=> b.getName() } ).flatten().filter( ~/^(?!.*S1_R1).*/ )
     // filter out sample with undetermined in its name: regex ref: https://stackoverflow.com/questions/33159862/regex-match-word-not-containing
     read2 = DEMULTIPLEX.out.read2.toSortedList( { a, b -> a.getName() <=> b.getName() } ).flatten().filter( ~/^(?!.*undetermined).*/ )
 
