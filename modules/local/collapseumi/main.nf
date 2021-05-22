@@ -21,9 +21,9 @@ process COLLAPSEUMI {
 
     input:
     // tuple val(umi_file), val(read1), val(read2)
-    umi_file,
-    read1,
-    read2
+    path umi_file
+    path read1
+    path read2
 
     output:
     path 'res_collapseumi/*R1.fastq.gz', emit: umi_read1
