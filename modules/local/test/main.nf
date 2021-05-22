@@ -30,6 +30,6 @@ process TEST {
     script:
     def software = getSoftwareName(task.process)
     """
-    echo TETDONE_$umi_$read1_$read2 > "TEST.txt"
+    echo TETDONE_${umi}_${read1}_${read2} > "TEST.txt"
     """
 }
