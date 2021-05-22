@@ -100,9 +100,6 @@ workflow UDITASFLOW {
     // filter out sample with undetermined in its name: regex ref: https://stackoverflow.com/questions/33159862/regex-match-word-not-containing
     read2 = DEMULTIPLEX.out.read2.toSortedList( { a, b -> a.getName() <=> b.getName() } ).flatten().filter( ~/^(?!.*undetermined).*/ )
 
-    println umi.size
-    println read1.size
-
     // // ch1 = Channel.fromPath(PARSEUMI.out.umi.collect()).view()
     // values = PARSEUMI.out.umi.merge(DEMULTIPLEX.out.read1).merge(DEMULTIPLEX.out.read2)
     //
