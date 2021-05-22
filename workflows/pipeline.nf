@@ -102,7 +102,9 @@ workflow UDITASFLOW {
     read2 = DEMULTIPLEX.out.read2.toSortedList( { a, b -> a.getName() <=> b.getName() } ).flatten().filter( ~/^(?!.*undetermined).*/ )
 
     COLLAPSEUMI (
-      tuple umi, read1, read2
+      umi,
+      read1,
+      read2
     )
 
     // TEST (
