@@ -96,18 +96,20 @@ workflow UDITASFLOW {
 
     umi = PARSEUMI.out.umi.toSortedList( { a, b -> a.getName() <=> b.getName() } ).flatten()
     // Note that must sort by filename since path is full path, and files are distributed in random folders under work dir.
-    read1 = DEMULTIPLEX.out.read1.toSortedList( { a, b -> a.getName() <=> b.getName() } ).flatten().filter( ~/^(?!.*S1_R1).*/ )
+    read1 = DEMULTIPLEX.out.read1.toSortedList( { a, b -> a.getName() <=> b.getName() } ).flatten().filter( ~/^(?!.*undetermined).*/ )
     // filter out sample with undetermined in its name: regex ref: https://stackoverflow.com/questions/33159862/regex-match-word-not-containing
+    // confirmed that the filtering is working by checking teh results with .filter( ~/^(?!.*S1_R1).*/
     read2 = DEMULTIPLEX.out.read2.toSortedList( { a, b -> a.getName() <=> b.getName() } ).flatten().filter( ~/^(?!.*undetermined).*/ )
 
-    // // ch1 = Channel.fromPath(PARSEUMI.out.umi.collect()).view()
-    // values = PARSEUMI.out.umi.merge(DEMULTIPLEX.out.read1).merge(DEMULTIPLEX.out.read2)
-    //
-    TEST (
-      umi,
-      read1,
-      read2
+    COLLAPSEUMI (
+      tuple umi, read1, read2
     )
+
+    // TEST (
+    //   umi,
+    //   read1,
+    //   read2
+    // )
 
 
     // PARSEUMI.out.umi.onComplete {
@@ -189,11 +191,7 @@ workflow UDITASFLOW {
     // DEMULTIPLEX.out.read1.collect().toSortedList().view()
                 // .filter( ~/undetermined*.fastq.gz/ )
 
-    // COLLAPSEUMI (
-    //   umi_index
-    //   read1_file
-    //   read2_file
-    // )
+
 
 
 
