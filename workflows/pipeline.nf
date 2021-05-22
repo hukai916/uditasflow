@@ -95,16 +95,14 @@ workflow UDITASFLOW {
     )
 
     umi = PARSEUMI.out.umi.toSortedList().flatten()
-    // read1 = DEMULTIPLEX.out.read1.toSortedList().flatten()
-    // read2 = DEMULTIPLEX.out.read2.toSortedList().flatten()
+    read1 = DEMULTIPLEX.out.read1.toSortedList().flatten()
+    read2 = DEMULTIPLEX.out.read2.toSortedList().flatten()
 
     // // ch1 = Channel.fromPath(PARSEUMI.out.umi.collect()).view()
     // values = PARSEUMI.out.umi.merge(DEMULTIPLEX.out.read1).merge(DEMULTIPLEX.out.read2)
     //
     TEST (
-      umi
-      // read1,
-      // read2
+      tuple umi, read1, read2
     )
 
 

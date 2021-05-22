@@ -19,7 +19,8 @@ process TEST {
     container "hukai916/r_demultiplexer:0.4"
 
     input:
-    path(umi)
+    tuple path(umi), path(read1), path(read2)
+    // path(umi)
     // path(read1)
     // path(read2)
 
@@ -29,6 +30,6 @@ process TEST {
     script:
     def software = getSoftwareName(task.process)
     """
-    echo TETDONE_$umi > "TEST.txt"
+    echo TETDONE_$umi_$read1_$read2 > "TEST.txt"
     """
 }
