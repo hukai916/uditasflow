@@ -1,14 +1,19 @@
 index = ["result_test/index1_S1", "result_test/index1_S4", "result_test/index1_S2", "result_test/index1_S3"]
 fastq = ["result_test/S3", "result_test/S2", "result_test/S1", "result_test/S4"]
-fastq2 = ["result_test/S3", "result_test/S2", "result_test/S1", "result_test/S4"]
+fastq2 = ["result_test/S5", "result_test/S6", "result_test/S7", "result_test/S8"]
 
 
 index_ch = Channel.fromPath(index)
 fastq_ch = Channel.fromPath(fastq)
 fastq_ch2 = Channel.fromPath(fastq2)
 
-ordered_index = Channel.fromPath(index).toSortedList()
+// ordered_index = Channel.fromPath(index).toSortedList()
+// ordered_fastq = Channel.fromPath(fastq).toSortedList()
+// ordered_fastq2 = Channel.fromPath(fastq2).toSortedList()
 
+ordered_index = Channel.fromPath(index)
+ordered_fastq = Channel.fromPath(fastq)
+ordered_fastq2 = Channel.fromPath(fastq2)
 // Below works fine:
 // process runtest1 {
 //   echo true
@@ -23,17 +28,30 @@ ordered_index = Channel.fromPath(index).toSortedList()
 //   echo "TEST1 $x-$y"
 //   """
 // }
+// values = Channel.of( [1, 'alpha'], [2, 'beta'], [3, 'delta'] )
 
+// values = index_ch.merge(fastq_ch).merge(fastq_ch2)
 
-ch1 = Channel.from(index_ch.toSortedList())
-ch2 = Channel.from(fastq_ch.toSortedList())
-ch1.combine(ch2).view()
+values = ordered_index.merge(ordered_fastq).merge(ordered_fastq2)
 
-numbers = Channel.from(1,2,3)
-words = Channel.from('hello', 'ciao')
-numbers
-    .combine(words)
-    .view()
+process tupleExample {
+    echo true
+
+    input:
+    tuple path(x), path(y), path(z) from values
+
+    """
+    echo Processing $x and $y and $z
+    """
+
+}
+
+//
+// numbers = Channel.from(1,2,3)
+// words = Channel.from('hello', 'ciao')
+// numbers
+//     .combine(words)
+//     .view()
 // Below won't work: won't output sorted value: you can't use collect together with toSortedLIst, the latter already does collect role
 // process runtest2 {
 //   echo true

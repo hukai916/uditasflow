@@ -94,13 +94,12 @@ workflow UDITASFLOW {
       params.umi_end
     )
 
-    ch1 = Channel.fromPath(PARSEUMI.out.umi.collect()).view()
+    // ch1 = Channel.fromPath(PARSEUMI.out.umi.collect()).view()
+    values = PARSEUMI.out.umi.merge(DEMULTIPLEX.out.read1).merge(DEMULTIPLEX.out.read2)
 
-    // TEST (
-    //   PARSEUMI.out.umi.collect().toSortedList(),
-    //   DEMULTIPLEX.out.index1.collect().toSortedList(),
-    //   DEMULTIPLEX.out.index2.collect().toSortedList()
-    //   )
+    TEST (
+      tuple path(x), path(y), path(z) from values
+    )
 
 
     // PARSEUMI.out.umi.onComplete {
