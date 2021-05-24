@@ -131,6 +131,7 @@ workflow UDITASFLOW {
       COLLAPSEUMI.out.umi_read1,
       COLLAPSEUMI.out.umi_read2,
       params.adapter_read1,
+      params.adapter_read2
       // ch_adapter_read2
     )
 

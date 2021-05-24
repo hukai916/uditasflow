@@ -23,19 +23,24 @@ process CUTADAPTER {
     path read1
     path read2
     val adapter_read1
-    // val adapter_read2
+    val adapter_read2
 
-    // output:
-    // path 'res_cutadapter/*R1.fastq', emit: cutadapter_read1
-    // path 'res_cutadapter/*R2.fastq', emit: cutadapter_read2
     output:
-    path "TEST.txt"
+    path 'res_cutadapter/*R1.fastq', emit: cutadapter_read1
+    path 'res_cutadapter/*R2.fastq', emit: cutadapter_read2
+    // output:
+    // path "TEST.txt"
 
     script:
     def software = getSoftwareName(task.process)
     """
     mkdir res_cutadapter
-    echo TETDONE_${read1}_${read2}_${adapter_read1} > "TEST.txt"
+    cutadapt $options.args \
+          -a $adapter_read1 \
+          -A $adapter_read2 \
+          -o res_cutadapter/${read1.baseName} \
+          -p res_cutadapter/${read2.baseName} \
+          $read1 $read2
 
     """
 }
