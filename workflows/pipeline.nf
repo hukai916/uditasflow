@@ -127,9 +127,11 @@ workflow UDITASFLOW {
     //   read2
     // )
 
-    TEST (
+    CUTADAPTER (
       COLLAPSEUMI.out.umi_read1,
-      COLLAPSEUMI.out.umi_read2
+      COLLAPSEUMI.out.umi_read2,
+      ch_adapter_read1,
+      ch_adapter_read2
     )
 
     // PARSEUMI.out.umi.onComplete {
