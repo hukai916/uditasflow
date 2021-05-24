@@ -111,15 +111,15 @@ workflow UDITASFLOW {
       read2
     )
 
-    r1 = COLLAPSEUMI.out.umi_read1.toSortedList().view()
-    r2 = COLLAPSEUMI.out.umi_read2.toSortedList().flatten()
-
-    CUTADAPTER (
-      r1,
-      r2,
-      ch_adapter_read1,
-      ch_adapter_read2
-    )
+    // r1 = COLLAPSEUMI.out.umi_read1.toSortedList().view()
+    // r2 = COLLAPSEUMI.out.umi_read2.toSortedList().flatten()
+    //
+    // CUTADAPTER (
+    //   r1,
+    //   r2,
+    //   ch_adapter_read1,
+    //   ch_adapter_read2
+    // )
 
     // TEST (
     //   umi,
@@ -127,6 +127,11 @@ workflow UDITASFLOW {
     //   read2
     // )
 
+    TEST {
+      umi,
+      COLLAPSEUMI.out.umi_read1,
+      COLLAPSEUMI.out.umi_read2
+    }
 
     // PARSEUMI.out.umi.onComplete {
     //   // tem_umi   = PARSEUMI.out.umi.collect().toSortedList()
