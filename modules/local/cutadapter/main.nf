@@ -33,8 +33,15 @@ process CUTADAPTER {
 
     script:
     def software = getSoftwareName(task.process)
-    if (adapter1_rc) { adapter_read1 = "AATTCCC" }
-    if (adapter2_rc) { adapter_read2 = "AAAAAAA" }
+    // Get the complement of a DNA sequence
+    // Complement table taken from http://arep.med.harvard.edu/labgc/adnan/projects/Utilities/revcomp.html
+    String.metaClass.complement = {
+    def complements = [ A:'T', T:'A', U:'A', G:'C', C:'G', Y:'R', R:'Y', S:'S', W:'W', K:'M', M:'K', B:'V', D:'H', H:'D', V:'B', N:'N' ]
+    delegate.toUpperCase().replaceAll( /./ ) { complements."$it" ?: 'X' }
+    }
+
+    if (adapter1_rc) { adapter_read1 = adapter_read1.reverse().complement() }
+    if (adapter2_rc) { adapter_read2 = adapter_read2.reverse().complement() }
 
     """
     mkdir res_cutadapter
