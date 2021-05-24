@@ -55,6 +55,9 @@ include { PARSEUMI              } from '../modules/local/parseumi/main'         
 
 include { COLLAPSEUMI           } from '../modules/local/collapseumi/main'        addParams( options: modules['collapseumi']       )
 
+include { CUTADAPTER            } from '../modules/local/cutadapter/main'         addParams( options: modules['cutadapter']        )
+
+
 include { TEST                  } from '../modules/local/test/main'               addParams( options: modules['test']              )
 
 ////////////////////////////////////////////////////
