@@ -22,8 +22,8 @@ process CUTADAPTER {
     input:
     path read1
     path read2
-    val adapter_read1
-    val adapter_read2
+    // val adapter_read1
+    // val adapter_read2
 
     output:
     path 'res_cutadapter/*R1.fastq', emit: cutadapter_read1
