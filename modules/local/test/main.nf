@@ -20,7 +20,7 @@ process TEST {
 
     input:
     // tuple path(umi), path(read1), path(read2)
-    path(umi)
+    // path(umi)
     path(read1)
     path(read2)
 
@@ -30,6 +30,6 @@ process TEST {
     script:
     def software = getSoftwareName(task.process)
     """
-    echo TETDONE_${umi}_${read1}_${read2} > "TEST.txt"
+    echo TETDONE_${read1}_${read2} > "TEST.txt"
     """
 }

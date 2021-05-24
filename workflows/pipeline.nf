@@ -128,7 +128,6 @@ workflow UDITASFLOW {
     // )
 
     TEST (
-      umi,
       COLLAPSEUMI.out.umi_read1,
       COLLAPSEUMI.out.umi_read2
     )
