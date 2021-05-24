@@ -10,13 +10,6 @@ process CUTADAPTER {
         mode: params.publish_dir_mode,
         saveAs: { filename -> saveFiles(filename: filename, options: params.options, publish_dir: getSoftwareName(task.process), publish_id: '') }
 
-    // conda (params.enable_conda ? "dranew:bcl2fastq=2.19.0" : null)
-    // if (workflow.containerEngine == 'singularity' && !params.singularity_pull_docker_container) {
-    //     container "url_to_singularity_image"
-    // } else {
-    //     // container "quay.io/biocontainers/multiqc:1.9--pyh9f0ad1d_0"
-    //     container "hukai916/bcl2fastq:2.20.0-centos7"
-    // }
     container "hukai916/cutadapt_xenial:3.4"
 
     input:
@@ -33,7 +26,7 @@ process CUTADAPTER {
 
     script:
     def software = getSoftwareName(task.process)
-    // Get the complement of a DNA sequence
+    // Get the complement of a DNA sequence: ref: http://groovyconsole.appspot.com/script/29005
     // Complement table taken from http://arep.med.harvard.edu/labgc/adnan/projects/Utilities/revcomp.html
     String.metaClass.complement = {
     def complements = [ A:'T', T:'A', U:'A', G:'C', C:'G', Y:'R', R:'Y', S:'S', W:'W', K:'M', M:'K', B:'V', D:'H', H:'D', V:'B', N:'N' ]
@@ -51,6 +44,5 @@ process CUTADAPTER {
           -o res_cutadapter/${read1.baseName} \
           -p res_cutadapter/${read2.baseName} \
           $read1 $read2
-
     """
 }
