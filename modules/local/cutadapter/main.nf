@@ -29,14 +29,14 @@ process CUTADAPTER {
     path 'res_cutadapter/*R1.fastq', emit: cutadapter_read1
     path 'res_cutadapter/*R2.fastq', emit: cutadapter_read2
 
-    adapter_read1 = "TESTRUN"
+    adapter_readx = "TESTRUN"
 
     script:
     def software = getSoftwareName(task.process)
     """
     mkdir res_cutadapter
     cutadapt $options.args \
-          -a $adapter_read1 \
+          -a $adapter_readx \
           -A $adapter_read2 \
           -o res_cutadapter/${read1.baseName} \
           -p res_cutadapter/${read2.baseName} \
