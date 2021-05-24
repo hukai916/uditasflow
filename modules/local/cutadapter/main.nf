@@ -39,7 +39,7 @@ process CUTADAPTER {
     """
     mkdir res_cutadapter
     cutadapt $options.args \
-          -a $adapter_readx \
+          -a $adapter_read1 \
           -A $adapter_read2 \
           -o res_cutadapter/${read1.baseName} \
           -p res_cutadapter/${read2.baseName} \
