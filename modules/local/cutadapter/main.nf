@@ -17,7 +17,7 @@ process CUTADAPTER {
     //     // container "quay.io/biocontainers/multiqc:1.9--pyh9f0ad1d_0"
     //     container "hukai916/bcl2fastq:2.20.0-centos7"
     // }
-    container "hukai916/r_demultiplexer:0.4"
+    container "hukai916/cutadapt_xenial:3.4"
 
     input:
     path read1
