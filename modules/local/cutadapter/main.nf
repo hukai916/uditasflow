@@ -22,7 +22,7 @@ process CUTADAPTER {
     input:
     path read1
     path read2
-    // val adapter_read1
+    val adapter_read1
     // val adapter_read2
 
     // output:
@@ -35,7 +35,7 @@ process CUTADAPTER {
     def software = getSoftwareName(task.process)
     """
     mkdir res_cutadapter
-    echo TETDONE_${read1}_${read2} > "TEST.txt"
+    echo TETDONE_${read1}_${read2}_${adapter_read1} > "TEST.txt"
 
     """
 }
