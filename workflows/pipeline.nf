@@ -127,11 +127,11 @@ workflow UDITASFLOW {
     //   read2
     // )
 
-    TEST {
+    TEST (
       umi,
       COLLAPSEUMI.out.umi_read1,
       COLLAPSEUMI.out.umi_read2
-    }
+    )
 
     // PARSEUMI.out.umi.onComplete {
     //   // tem_umi   = PARSEUMI.out.umi.collect().toSortedList()
