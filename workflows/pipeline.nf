@@ -71,8 +71,8 @@ workflow UDITASFLOW {
     ch_software_versions = Channel.empty()
     ch_bcl_raw           = Channel.fromPath(params.bcl_raw)
     ch_sample_file       = Channel.fromPath(params.sample_file)
-    ch_adapter_read1     = Channel.of(params.adapter_read1)
-    ch_adapter_read2     = Channel.of(params.adapter_read2)
+    // ch_adapter_read1     = Channel.of(params.adapter_read1)
+    // ch_adapter_read2     = Channel.of(params.adapter_read2)
 
 
     BCL2FASTQ (
@@ -130,7 +130,7 @@ workflow UDITASFLOW {
     CUTADAPTER (
       COLLAPSEUMI.out.umi_read1,
       COLLAPSEUMI.out.umi_read2,
-      ch_adapter_read1,
+      params.adapter_read1,
       // ch_adapter_read2
     )
 
