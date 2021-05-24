@@ -24,6 +24,8 @@ process CUTADAPTER {
     path read2
     val adapter_read1
     val adapter_read2
+    val adapter1_rc
+    val adapter2_rc
 
     output:
     path 'res_cutadapter/*R1.fastq', emit: cutadapter_read1
@@ -31,8 +33,9 @@ process CUTADAPTER {
 
     script:
     def software = getSoftwareName(task.process)
-    adapter_readx = "TESTRUN"
-    
+    if (adapter1_rc) { adapter_read1 = "AATTCCC" }
+    if (adapter2_rc) { adapter_read2 = "AAAAAAA" }
+
     """
     mkdir res_cutadapter
     cutadapt $options.args \

@@ -115,7 +115,9 @@ workflow UDITASFLOW {
       COLLAPSEUMI.out.umi_read1,
       COLLAPSEUMI.out.umi_read2,
       params.adapter_read1,
-      params.adapter_read2
+      params.adapter_read2,
+      params.adapter1_rc,
+      params.adapter2_rc
       // ch_adapter_read2 // note that if using Channel, it will be cosumed and will only run for one instance for the process.
     )
 
