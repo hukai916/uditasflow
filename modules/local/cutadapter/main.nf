@@ -28,8 +28,8 @@ process CUTADAPTER {
     output:
     path 'res_cutadapter/*R1.fastq', emit: cutadapter_read1
     path 'res_cutadapter/*R2.fastq', emit: cutadapter_read2
-    // output:
-    // path "TEST.txt"
+
+    adapter_read1 = "TESTRUN"
 
     script:
     def software = getSoftwareName(task.process)

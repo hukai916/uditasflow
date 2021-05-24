@@ -111,6 +111,15 @@ workflow UDITASFLOW {
       read2
     )
 
+    CUTADAPTER (
+      COLLAPSEUMI.out.umi_read1,
+      COLLAPSEUMI.out.umi_read2,
+      params.adapter_read1,
+      params.adapter_read2
+      // ch_adapter_read2 // note that if using Channel, it will be cosumed and will only run for one instance for the process.
+    )
+
+
     // r1 = COLLAPSEUMI.out.umi_read1.toSortedList().view()
     // r2 = COLLAPSEUMI.out.umi_read2.toSortedList().flatten()
     //
@@ -127,13 +136,6 @@ workflow UDITASFLOW {
     //   read2
     // )
 
-    CUTADAPTER (
-      COLLAPSEUMI.out.umi_read1,
-      COLLAPSEUMI.out.umi_read2,
-      params.adapter_read1,
-      params.adapter_read2
-      // ch_adapter_read2
-    )
 
     // PARSEUMI.out.umi.onComplete {
     //   // tem_umi   = PARSEUMI.out.umi.collect().toSortedList()
