@@ -112,8 +112,8 @@ workflow UDITASFLOW {
     )
 
     CUTADAPTER (
-      COLLAPSEUMI.out.umi_read1,
-      COLLAPSEUMI.out.umi_read2,
+      COLLAPSEUMI.out.umi_read1.toSortedList().flatten(),
+      COLLAPSEUMI.out.umi_read2.toSortedList().flatten(),
       ch_adapter_read1,
       ch_adapter_read2
     )
