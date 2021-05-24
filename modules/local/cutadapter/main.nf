@@ -32,6 +32,7 @@ process CUTADAPTER {
     script:
     def software = getSoftwareName(task.process)
     """
+    mkdir res_cutadapter
     cutadapt $options.args \
             -a $adapter_read1 \
             -A $adapter_read2 \
