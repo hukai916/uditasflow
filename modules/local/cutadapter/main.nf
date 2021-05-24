@@ -26,8 +26,8 @@ process CUTADAPTER {
     val adapter_read2
 
     output:
-    path 'res_cutadapter/*R1.fastq.gz', emit: cutadapter_read1
-    path 'res_cutadapter/*R2.fastq.gz', emit: cutadapter_read2
+    path 'res_cutadapter/*R1.fastq', emit: cutadapter_read1
+    path 'res_cutadapter/*R2.fastq', emit: cutadapter_read2
 
     script:
     def software = getSoftwareName(task.process)
