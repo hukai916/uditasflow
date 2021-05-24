@@ -33,11 +33,12 @@ process CUTADAPTER {
     def software = getSoftwareName(task.process)
     """
     mkdir res_cutadapter
-    cutadapt $options.args \
-            -a $adapter_read1 \
-            -A $adapter_read2 \
-            -o res_cutadapter/${read1.baseName} \
-            -p res_cutadapter/${read2.baseName} \
-            $read1 $read2
+    echo TETDONE_${read1}_${read2} > "TEST.txt"
+    // cutadapt $options.args \
+    //         -a $adapter_read1 \
+    //         -A $adapter_read2 \
+    //         -o res_cutadapter/${read1.baseName} \
+    //         -p res_cutadapter/${read2.baseName} \
+    //         $read1 $read2
     """
 }
