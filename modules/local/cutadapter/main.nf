@@ -36,11 +36,11 @@ process CUTADAPTER {
     """
     mkdir res_cutadapter
     echo TETDONE_${read1}_${read2} > "TEST.txt"
-    // cutadapt $options.args \
-    //         -a $adapter_read1 \
-    //         -A $adapter_read2 \
-    //         -o res_cutadapter/${read1.baseName} \
-    //         -p res_cutadapter/${read2.baseName} \
-    //         $read1 $read2
+    # cutadapt $options.args \
+    #         -a $adapter_read1 \
+    #         -A $adapter_read2 \
+    #         -o res_cutadapter/${read1.baseName} \
+    #         -p res_cutadapter/${read2.baseName} \
+    #         $read1 $read2
     """
 }
