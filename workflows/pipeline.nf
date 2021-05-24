@@ -111,7 +111,7 @@ workflow UDITASFLOW {
       read2
     )
 
-    r1 = COLLAPSEUMI.out.umi_read1.toSortedList().flatten()
+    r1 = COLLAPSEUMI.out.umi_read1.toSortedList().view()
     r2 = COLLAPSEUMI.out.umi_read2.toSortedList().flatten()
 
     CUTADAPTER (
