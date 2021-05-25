@@ -125,22 +125,22 @@ workflow UDITASFLOW {
       // ch_adapter_read2 // note that if using Channel, it will be cosumed and will only run for one instance for the process.
     )
 
-    def samples = [1,2,3,4,5,6]
-    // new File(params.sample_file).splitEachLine(",") {
-    //   fields ->
-    //     if (fields[0] != "Sample_ID") {
-    //       samples.add([fields[0], fields[10], fields[11]])
-    //     }
-    // }
-    sample_csv = Channel.from(samples).toSortedList( {a, b -> a[0] <=> b[0]} ).flatten().collate( 3 )
-    cutadapter_read1 = CUTADAPTER.out.cutadapter_read1.toSortedList().flatten()
-    cutadapter_read2 = CUTADAPTER.out.cutadapter_read2.toSortedList().flatten()
-
-    SPLITONTARGET (
-      sample_csv
-      cutadapter_read1
-      cutadapter_read2
-    )
+    // def samples = [1,2,3,4,5,6]
+    // // new File(params.sample_file).splitEachLine(",") {
+    // //   fields ->
+    // //     if (fields[0] != "Sample_ID") {
+    // //       samples.add([fields[0], fields[10], fields[11]])
+    // //     }
+    // // }
+    // sample_csv = Channel.from(samples).toSortedList( {a, b -> a[0] <=> b[0]} ).flatten().collate( 3 )
+    // cutadapter_read1 = CUTADAPTER.out.cutadapter_read1.toSortedList().flatten()
+    // cutadapter_read2 = CUTADAPTER.out.cutadapter_read2.toSortedList().flatten()
+    //
+    // SPLITONTARGET (
+    //   sample_csv
+    //   cutadapter_read1
+    //   cutadapter_read2
+    // )
 
     // TEST (
     //   umi,
