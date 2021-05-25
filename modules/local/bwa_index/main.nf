@@ -22,6 +22,7 @@ process BWA_INDEX {
     script:
 
     """
+    mkdir index
     bwa index $options.args $ref_genome -p index/${ref_genome.baseName}
     """
 }
