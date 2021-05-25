@@ -32,6 +32,7 @@ process BWA {
     script:
 
     """
+    bwa index $ref_genome
     bwa mem -M $ref_genome $ontarget_read1 $ontarget_read2 | samtools view -b -o ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam
 
     samtools sort ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam -o ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam

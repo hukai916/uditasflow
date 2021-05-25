@@ -59,8 +59,9 @@ include { CUTADAPTER            } from '../modules/local/cutadapter/main'       
 
 include { SPLITONTARGET         } from '../modules/local/splitontarget/main'      addParams( options: modules['splitontarget']     )
 
-include { BWA                   } from '../modules/local/bwa/main'                addParams( options: modules['bwa']               )
+include { BWA_INDEX             } from '../modules/local/bwa_index/main'          addParams( options: modules['bwa_index']         )
 
+include { BWA                   } from '../modules/local/bwa/main'                addParams( options: modules['bwa']               )
 
 include { TEST                  } from '../modules/local/test/main'               addParams( options: modules['test']              )
 
@@ -145,14 +146,19 @@ workflow UDITASFLOW {
       cutadapter_read2
     )
 
-    BWA (
-      ch_genome,
-      params.bam_dir,
-      SPLITONTARGET.out.ontarget_read1,
-      SPLITONTARGET.out.ontarget_read2,
-      SPLITONTARGET.out.offtarget_read1,
-      SPLITONTARGET.out.offtarget_read2
+    BWA_INDEX (
+      Channel.fromPath(params.ref_genome)
     )
+
+    // BWA (
+    //   // ch_genome, // must be a path type, otherwise, prompt unvalide path erro; a single ch won't work either since it will be consumed.
+    //   Channel.fromPath(params.ref_genome),
+    //   params.bam_dir,
+    //   SPLITONTARGET.out.ontarget_read1,
+    //   SPLITONTARGET.out.ontarget_read2,
+    //   SPLITONTARGET.out.offtarget_read1,
+    //   SPLITONTARGET.out.offtarget_read2
+    // )
 
     // TEST (
     //   umi,
