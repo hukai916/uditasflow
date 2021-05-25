@@ -23,7 +23,7 @@ process BWA {
     output:
     path 'ontarget/*/ontarget*.both.bam', emit: ontarget_both_bam
     path 'ontarget/*/ontarget*.R1only.bam', emit: ontarget_R1only_bam
-    path 'ontarget/*/ontarget*.R2only.bam', emit: ontarget_R1only_bam
+    path 'ontarget/*/ontarget*.R2only.bam', emit: ontarget_R2only_bam
 
     // path 'offtarget/*/offtarget*.both.bam', emit: offtarget_both_bam
     // path 'offtarget/*/offtarget*.R1only.bam', emit: offtarget_R1only_bam
