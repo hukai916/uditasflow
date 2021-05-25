@@ -18,11 +18,11 @@ process BWA_INDEX {
     output:
     path 'index', emit: index
 
-    def software = getSoftwareName(task.process)
+    // def software = getSoftwareName(task.process) // task variable not found?
     script:
 
     """
     bwa index $options.args $ref_genome -p index/${ref_genome.baseName}
-    echo \$(bwa 2>&1) | sed 's/^.*Version: //; s/Contact:.*\$//' > ${software}.version.txt
+    #echo \$(bwa 2>&1) | sed 's/^.*Version: //; s/Contact:.*\$//' > ${software}.version.txt
     """
 }
