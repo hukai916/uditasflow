@@ -24,7 +24,7 @@ process BWA_MEM {
     path 'ontarget/*/ontarget*.both.bam', emit: ontarget_both_bam
     path 'ontarget/*/ontarget*.R1only.bam', emit: ontarget_R1only_bam
     path 'ontarget/*/ontarget*.R2only.bam', emit: ontarget_R2only_bam
-    path 'ontarget/*/bam_qc', emit: ontarget_bam_qc
+    path 'ontarget/*/bam_qc_*', emit: ontarget_bam_qc
 
     path 'offtarget/*/offtarget*.both.bam', emit: offtarget_both_bam
     path 'offtarget/*/offtarget*.R1only.bam', emit: offtarget_R1only_bam
