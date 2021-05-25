@@ -125,8 +125,6 @@ workflow UDITASFLOW {
       // ch_adapter_read2 // note that if using Channel, it will be cosumed and will only run for one instance for the process.
     )
 
-    params.sample_file
-
     def samples = []
     new File(params.sample_file).splitEachLine(",") {
       fields ->
