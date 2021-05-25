@@ -59,6 +59,8 @@ include { CUTADAPTER            } from '../modules/local/cutadapter/main'       
 
 include { SPLITONTARGET         } from '../modules/local/splitontarget/main'      addParams( options: modules['splitontarget']     )
 
+include { BWA                   } from '../modules/local/bwa/main'                addParams( options: modules['bwa']               )
+
 
 include { TEST                  } from '../modules/local/test/main'               addParams( options: modules['test']              )
 
@@ -77,7 +79,6 @@ workflow UDITASFLOW {
     ch_sample_file       = Channel.fromPath(params.sample_file)
     // ch_adapter_read1     = Channel.of(params.adapter_read1)
     // ch_adapter_read2     = Channel.of(params.adapter_read2)
-
 
     BCL2FASTQ (
       ch_bcl_raw
@@ -141,6 +142,15 @@ workflow UDITASFLOW {
       sample_csv,
       cutadapter_read1,
       cutadapter_read2
+    )
+
+    BWA (
+      params.ref_genome,
+      params.bam_dir,
+      SPLITONTARGET.out.ontarget_read1,
+      SPLITONTARGET.out.ontarget_read2,
+      SPLITONTARGET.out.offtarget_read1,
+      SPLITONTARGET.out.offtarget_read2
     )
 
     // TEST (
