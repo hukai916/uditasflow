@@ -34,9 +34,11 @@ process BWA_MEM {
     """
     INDEX=`find -L ./ -name "*.amb" | sed 's/.amb//'`
 
-    bwa mem $options.args \
-            \$INDEX \
-            $ontarget_read1 $ontarget_read2 \
+    ## map both R1 and R2 reads:
+    mkdir -p ontarget/${bam_dir}
+    bwa mem $options.args \\
+            \$INDEX \\
+            $ontarget_read1 $ontarget_read2 \\
             | samtools view -b -o ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam
 
     samtools sort ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam -o ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam
@@ -45,6 +47,9 @@ process BWA_MEM {
 
     multiqc ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam.stat --outdir ontarget/${bam_dir}/bam_qc -n ${ontarget_read1.simpleName}.both.bam.stat
 
+## map R1 only:
+
+## map R2 only:
 
 
     """
