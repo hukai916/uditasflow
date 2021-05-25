@@ -164,7 +164,7 @@ workflow UDITASFLOW {
       SPLITONTARGET.out.offtarget_read2
     )
 
-    SPLITONTARGET.out.collect.view()
+    SPLITONTARGET.out.ontarget_read1.collect().view()
     // TEST (
     //   umi,
     //   read1,
