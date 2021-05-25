@@ -42,6 +42,7 @@ include { GET_SOFTWARE_VERSIONS } from '../modules/local/get_software_versions' 
 
 // Modules: nf-core/modules
 include { FASTQC                } from '../modules/nf-core/software/fastqc/main'  addParams( options: modules['fastqc']            )
+
 include { MULTIQC               } from '../modules/nf-core/software/multiqc/main' addParams( options: multiqc_options              )
 
 // Subworkflows: local
@@ -152,7 +153,8 @@ workflow UDITASFLOW {
 
     BWA_MEM (
       // ch_genome, // must be a path type, otherwise, prompt unvalide path erro; a single ch won't work either since it will be consumed.
-      BWA_INDEX.out.index,
+      // BWA_INDEX.out.index,
+      ch_ref_genome,
       params.bam_dir,
       SPLITONTARGET.out.ontarget_read1,
       SPLITONTARGET.out.ontarget_read2,

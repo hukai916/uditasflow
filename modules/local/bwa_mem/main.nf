@@ -24,6 +24,7 @@ process BWA_MEM {
     path 'ontarget/*/ontarget*.both.bam', emit: ontarget_both_bam
     path 'ontarget/*/ontarget*.R1only.bam', emit: ontarget_R1only_bam
     path 'ontarget/*/ontarget*.R2only.bam', emit: ontarget_R2only_bam
+    path 'ontarget/*/bam_qc', emit: ontarget_bam_qc
 
     // path 'offtarget/*/offtarget*.both.bam', emit: offtarget_both_bam
     // path 'offtarget/*/offtarget*.R1only.bam', emit: offtarget_R1only_bam
@@ -31,7 +32,8 @@ process BWA_MEM {
 
     script:
     // ontarget_read1.simpleName = ontarget_read1.simpleName[0..-3] // to get rid of _R1/_R2 from simpleName; also can't set readonly property
-    ontarget_read_simpleName = ontarget_read1.simpleName[0..-3]
+    ontarget_read_simpleName  = ontarget_read1.simpleName[0..-4]
+    offtarget_read_simpleName = offtarget_read1.simpleName[0..-4]
 
     """
     INDEX=`find -L ./ -name "*.amb" | sed 's/.amb//'`
