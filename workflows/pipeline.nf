@@ -132,7 +132,7 @@ workflow UDITASFLOW {
           samples.add([fields[0], fields[10], fields[11]])
         }
     }
-    sample_csv = Channel.from([1,2,3]]).toSortedList( {a, b -> a[0] <=> b[0]} ).flatten().collate( 3 )
+    sample_csv = Channel.from([1,2,3]).toSortedList( {a, b -> a[0] <=> b[0]} ).flatten().collate( 3 )
     cutadapter_read1 = CUTADAPTER.out.cutadapter_read1.toSortedList().flatten()
     cutadapter_read2 = CUTADAPTER.out.cutadapter_read2.toSortedList().flatten()
 
