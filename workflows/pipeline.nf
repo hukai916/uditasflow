@@ -57,7 +57,11 @@ include { COLLAPSEUMI           } from '../modules/local/collapseumi/main'      
 
 include { CUTADAPTER            } from '../modules/local/cutadapter/main'         addParams( options: modules['cutadapter']        )
 
+include { SPLITONTARGET         } from '../modules/local/splitontarget/main'      addParams( options: modules['splitontarget']     )
+
+
 include { TEST                  } from '../modules/local/test/main'               addParams( options: modules['test']              )
+
 
 ////////////////////////////////////////////////////
 /* --           RUN MAIN WORKFLOW              -- */
@@ -119,6 +123,25 @@ workflow UDITASFLOW {
       params.adapter1_rc,
       params.adapter2_rc
       // ch_adapter_read2 // note that if using Channel, it will be cosumed and will only run for one instance for the process.
+    )
+
+    params.sample_file
+
+    def samples = []
+    new File(params.sample_file).splitEachLine(",") {
+      fields ->
+        if (fields[0] != "Sample_ID") {
+          samples.add([fields[0], fields[10], fields[11]])
+        }
+    }
+    sample_csv = Channel.from(samples).toSortedList( {a, b -> a[0] <=> b[0]} ).flatten().collate( 3 )
+    cutadapter_read1 = CUTADAPTER.out.cutadapter_read1.toSortedList().flatten()
+    cutadapter_read2 = CUTADAPTER.out.cutadapter_read2.toSortedList().flatten()
+
+    SPLITONTARGET (
+      sample_csv
+      cutadapter_read1
+      cutadapter_read2
     )
 
     // TEST (
