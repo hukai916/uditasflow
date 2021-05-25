@@ -42,6 +42,17 @@ workflow {
 
   test = Channel.from(samples).toSortedList( {a, b -> a[0] <=> b[0]} ).flatten().collate( 3 ).view()
 
+  sample_file = "/Users/kaihu/Projects/workflow/test_data/samplesheet_uditas.csv"
+
+  // def samples = [1,2,3,4,5,6]
+  new File(sample_file).splitEachLine(",") {
+    fields ->
+      if (fields[0] != "Sample_ID") {
+        samples.add([fields[0], fields[10], fields[11]])
+      }
+  }
+  sample_csv = Channel.from(samples).toSortedList( {a, b -> a[0] <=> b[0]} ).flatten().collate( 3 )
+
   process runtest {
     echo true
 
@@ -55,5 +66,5 @@ workflow {
       """
   }
 
-  runtest(test)
+  runtest(sample_csv)
 }
