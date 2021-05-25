@@ -43,7 +43,7 @@ process BWA_MEM {
             $ontarget_read1 $ontarget_read2 \\
             | samtools view -b -o ontarget/${bam_dir}/${ontarget_read.simpleName}.both.bam
 
-    samtools sort ontarget/${bam_dir}/${ontarget_read_simpleName}.both.bam -o ontarget/${bam_dir}/${ontarget_read.simpleName}.both.bam
+    samtools sort ontarget/${bam_dir}/${ontarget_read_simpleName}.both.bam -o ontarget/${bam_dir}/${ontarget_read_simpleName}.both.bam
     samtools index ontarget/${bam_dir}/${ontarget_read_simpleName}.both.bam
     samtools stats ontarget/${bam_dir}/${ontarget_read_simpleName}.both.bam > ontarget/${bam_dir}/${ontarget_read_simpleName}.both.bam.stat
 
