@@ -28,7 +28,10 @@ process BWA_MEM {
     // path 'offtarget/*/offtarget*.both.bam', emit: offtarget_both_bam
     // path 'offtarget/*/offtarget*.R1only.bam', emit: offtarget_R1only_bam
     // path 'offtarget/*/offtarget*.R2only.bam', emit: offtarget_R1only_bam
+    ontarget_read1.simpleName = ontarget_read1.simpleName[0..-3] // to get rid of _R1/_R2 from simpleName
+    ontarget_read2.simpleName = ontarget_read2.simpleName[0..-3]
 
+    
     script:
 
     """

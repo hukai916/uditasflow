@@ -125,7 +125,7 @@ workflow UDITASFLOW {
       params.adapter_read2,
       params.adapter1_rc,
       params.adapter2_rc
-      // ch_adapter_read2 // note that if using Channel, it will be cosumed and will only run for one instance for the process.
+      // ch_adapter_read2 // note that if using Channel, it will be consumed and will only run for one instance for the process.
     )
 
     def samples = []
