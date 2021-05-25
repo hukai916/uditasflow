@@ -42,7 +42,7 @@ process BWA_MEM {
   ## ontarget:
     ## map both R1 and R2 reads:
     mkdir -p ontarget/${bam_dir}
-    mkdir -p ontarget/${bam_dir}/${ontarget_read_simpleName}
+    mkdir -p ontarget/${bam_dir}/bam_qc_${ontarget_read_simpleName}
 
     bwa mem $options.args \\
             \$INDEX \\
@@ -82,7 +82,7 @@ process BWA_MEM {
   ## offtarget:
     ## map both R1 and R2 reads:
     mkdir -p offtarget/${bam_dir}
-    mkdir -p ontarget/${bam_dir}/${ontarget_read_simpleName}
+    mkdir -p ontarget/${bam_dir}/bam_qc_${ontarget_read_simpleName}
 
     bwa mem $options.args \\
             \$INDEX \\
