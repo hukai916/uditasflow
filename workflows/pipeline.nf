@@ -153,11 +153,10 @@ workflow UDITASFLOW {
 
     BWA_MEM (
       // ch_genome, // must be a path type, otherwise, prompt unvalide path erro; a single ch won't work either since it will be consumed.
-      // BWA_INDEX.out.index,
+      BWA_INDEX.out.index,
       // Channel.fromPath(params.ref_genome),
       // Channel.of(params.bam_dir),
       params.bam_dir,
-      params.adapter_read2,
 
       SPLITONTARGET.out.ontarget_read1,
       SPLITONTARGET.out.ontarget_read2,
@@ -165,6 +164,7 @@ workflow UDITASFLOW {
       SPLITONTARGET.out.offtarget_read2
     )
 
+    SPLITONTARGET.out.collect.view()
     // TEST (
     //   umi,
     //   read1,
