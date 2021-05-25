@@ -33,7 +33,7 @@ process BWA_MEM {
 
     """
     INDEX=`find -L ./ -name "*.amb" | sed 's/.amb//'`
-
+  ## ontarget:
     ## map both R1 and R2 reads:
     mkdir -p ontarget/${bam_dir}
     bwa mem $options.args \\
@@ -47,10 +47,32 @@ process BWA_MEM {
 
     multiqc ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam.stat --outdir ontarget/${bam_dir}/bam_qc -n ${ontarget_read1.simpleName}.both.bam.stat
 
-## map R1 only:
+    ## map R1 only:
+    bwa mem $options.args \\
+            \$INDEX \\
+            $ontarget_read1 \\
+            | samtools view -b -o ontarget/${bam_dir}/${ontarget_read1.simpleName}.R1only.bam
 
-## map R2 only:
+    samtools sort ontarget/${bam_dir}/${ontarget_read1.simpleName}.R1only.bam -o ontarget/${bam_dir}/${ontarget_read1.simpleName}.R1only.bam
+    samtools index ontarget/${bam_dir}/${ontarget_read1.simpleName}.R1only.bam
+    samtools stats ontarget/${bam_dir}/${ontarget_read1.simpleName}.R1only.bam > ontarget/${bam_dir}/${ontarget_read1.simpleName}.R1only.bam.stat
 
+    multiqc ontarget/${bam_dir}/${ontarget_read1.simpleName}.R1only.bam.stat --outdir ontarget/${bam_dir}/bam_qc -n ${ontarget_read1.simpleName}.R1only.bam.stat
+
+    ## map R2 only:
+    bwa mem $options.args \\
+            \$INDEX \\
+            $ontarget_read2 \\
+            | samtools view -b -o ontarget/${bam_dir}/${ontarget_read1.simpleName}.R2only.bam
+
+    samtools sort ontarget/${bam_dir}/${ontarget_read1.simpleName}.R2only.bam -o ontarget/${bam_dir}/${ontarget_read1.simpleName}.R2only.bam
+    samtools index ontarget/${bam_dir}/${ontarget_read1.simpleName}.R2only.bam
+    samtools stats ontarget/${bam_dir}/${ontarget_read1.simpleName}.R2only.bam > ontarget/${bam_dir}/${ontarget_read1.simpleName}.R2only.bam.stat
+
+    multiqc ontarget/${bam_dir}/${ontarget_read1.simpleName}.R2only.bam.stat --outdir ontarget/${bam_dir}/bam_qc -n ${ontarget_read1.simpleName}.R2only.bam.stat
+
+
+  ## offtarget:
 
     """
 }
