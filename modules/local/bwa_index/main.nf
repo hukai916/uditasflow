@@ -23,6 +23,5 @@ process BWA_INDEX {
 
     """
     bwa index $options.args $ref_genome -p index/${ref_genome.baseName}
-    #echo \$(bwa 2>&1) | sed 's/^.*Version: //; s/Contact:.*\$//' > ${software}.version.txt
     """
 }
