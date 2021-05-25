@@ -156,8 +156,9 @@ workflow UDITASFLOW {
       // BWA_INDEX.out.index,
       // Channel.fromPath(params.ref_genome),
       // Channel.of(params.bam_dir),
-      SPLITONTARGET.out.ontarget_read1,
-      SPLITONTARGET.out.ontarget_read2,
+      params.adapter_read2,
+      params.adapter_read1,
+
       SPLITONTARGET.out.ontarget_read1,
       SPLITONTARGET.out.ontarget_read2,
       SPLITONTARGET.out.offtarget_read1,
