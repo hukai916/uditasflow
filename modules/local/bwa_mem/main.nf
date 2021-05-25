@@ -29,7 +29,7 @@ process BWA_MEM {
     path 'offtarget/*/offtarget*.both.bam', emit: offtarget_both_bam
     path 'offtarget/*/offtarget*.R1only.bam', emit: offtarget_R1only_bam
     path 'offtarget/*/offtarget*.R2only.bam', emit: offtarget_R2only_bam
-    path 'offtarget/*/bam_qc', emit: offtarget_bam_qc
+    path 'offtarget/*/bam_qc_*', emit: offtarget_bam_qc
 
     script:
     // ontarget_read1.simpleName = ontarget_read1.simpleName[0..-3] // to get rid of _R1/_R2 from simpleName; also can't set readonly property
