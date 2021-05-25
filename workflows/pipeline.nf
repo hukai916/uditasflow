@@ -61,7 +61,7 @@ include { SPLITONTARGET         } from '../modules/local/splitontarget/main'    
 
 include { BWA_INDEX             } from '../modules/local/bwa_index/main'          addParams( options: modules['bwa_index']         )
 
-include { BWA                   } from '../modules/local/bwa/main'                addParams( options: modules['bwa']               )
+include { BWA_MEM               } from '../modules/local/bwa_mem/main'            addParams( options: modules['bwa_mem']           )
 
 include { TEST                  } from '../modules/local/test/main'               addParams( options: modules['test']              )
 
@@ -78,7 +78,7 @@ workflow UDITASFLOW {
     ch_software_versions = Channel.empty()
     ch_bcl_raw           = Channel.fromPath(params.bcl_raw)
     ch_sample_file       = Channel.fromPath(params.sample_file)
-    ch_genome            = Channel.fromPath(params.ref_genome)
+    ch_ref_genome        = Channel.fromPath(params.ref_genome)
     // ch_adapter_read1     = Channel.of(params.adapter_read1)
     // ch_adapter_read2     = Channel.of(params.adapter_read2)
 
@@ -147,18 +147,18 @@ workflow UDITASFLOW {
     )
 
     BWA_INDEX (
-      Channel.fromPath(params.ref_genome)
+      ch_ref_genome
     )
 
-    // BWA (
-    //   // ch_genome, // must be a path type, otherwise, prompt unvalide path erro; a single ch won't work either since it will be consumed.
-    //   Channel.fromPath(params.ref_genome),
-    //   params.bam_dir,
-    //   SPLITONTARGET.out.ontarget_read1,
-    //   SPLITONTARGET.out.ontarget_read2,
-    //   SPLITONTARGET.out.offtarget_read1,
-    //   SPLITONTARGET.out.offtarget_read2
-    // )
+    BWA_MEM (
+      // ch_genome, // must be a path type, otherwise, prompt unvalide path erro; a single ch won't work either since it will be consumed.
+      BWA_INDEX.out.index,
+      params.bam_dir,
+      SPLITONTARGET.out.ontarget_read1,
+      SPLITONTARGET.out.ontarget_read2,
+      SPLITONTARGET.out.offtarget_read1,
+      SPLITONTARGET.out.offtarget_read2
+    )
 
     // TEST (
     //   umi,

@@ -4,7 +4,7 @@ include { initOptions; saveFiles; getSoftwareName } from './functions'
 params.options = [:]
 options        = initOptions(params.options)
 
-process BWA {
+process BWA_MEM {
     label 'process_low'
     publishDir "${params.outdir}",
         mode: params.publish_dir_mode,
@@ -32,8 +32,12 @@ process BWA {
     script:
 
     """
-    bwa index $ref_genome
-    bwa mem -M $ref_genome $ontarget_read1 $ontarget_read2 | samtools view -b -o ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam
+    INDEX=`find -L ./ -name "*.amb" | sed 's/.amb//'`
+
+    bwa mem $options.args \
+            \$INDEX \
+            $ontarget_read1 $ontarget_read2 \
+            | samtools view -b -o ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam
 
     samtools sort ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam -o ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam
     samtools index ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam
