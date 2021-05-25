@@ -77,6 +77,7 @@ workflow UDITASFLOW {
     ch_software_versions = Channel.empty()
     ch_bcl_raw           = Channel.fromPath(params.bcl_raw)
     ch_sample_file       = Channel.fromPath(params.sample_file)
+    ch_genome            = Channel.fromPath(params.ref_genome)
     // ch_adapter_read1     = Channel.of(params.adapter_read1)
     // ch_adapter_read2     = Channel.of(params.adapter_read2)
 
@@ -145,7 +146,7 @@ workflow UDITASFLOW {
     )
 
     BWA (
-      params.ref_genome,
+      ch_genome,
       params.bam_dir,
       SPLITONTARGET.out.ontarget_read1,
       SPLITONTARGET.out.ontarget_read2,
