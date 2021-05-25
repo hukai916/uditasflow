@@ -152,21 +152,18 @@ workflow UDITASFLOW {
     )
 
     BWA_MEM (
-      // ch_genome, // must be a path type, otherwise, prompt unvalide path erro; a single ch won't work either since it will be consumed.
-      // Channel.value(BWA_INDEX.out.index), // must create a value channel, otherwise content will be consumed.
-      // CUTADAPTER.out.cutadapter_read1,
-      // Channel.fromPath(params.ref_genome),
-      // Channel.of(params.bam_dir),
       BWA_INDEX.out.index.collect(),
-      params.bam_dir,
+      // note1: must be a valid path type, otherwise unvalid path error;
+      // note2: BWA_INDEX.out.index is a queue channel, it will be consumed, so create a value channel with collect().
+      // note2-1: BWA_INDEX.out.index can be used for different processes and will be auto copied to multiple channels, but itself still contains only one element.
 
+      params.bam_dir,
       SPLITONTARGET.out.ontarget_read1,
       SPLITONTARGET.out.ontarget_read2,
       SPLITONTARGET.out.offtarget_read1,
       SPLITONTARGET.out.offtarget_read2
     )
 
-    SPLITONTARGET.out.ontarget_read1.collect().view()
     // TEST (
     //   umi,
     //   read1,
