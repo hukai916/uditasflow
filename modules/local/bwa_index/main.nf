@@ -18,6 +18,7 @@ process BWA_INDEX {
     output:
     path 'index', emit: index
 
+    def software = getSoftwareName(task.process)
     script:
 
     """
