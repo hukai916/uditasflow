@@ -18,10 +18,10 @@ process SPLITONTARGET {
     path read2_fq
 
     output:
-    path './res_split_ontarget/ontarget*R1.fastq.gz', emit: ontarget_read1
-    path './res_split_ontarget/ontarget*R2.fastq.gz', emit: ontarget_read2
-    path './res_split_ontarget/offtarget*R1.fastq.gz', emit: offtarget_read1
-    path './res_split_ontarget/offtarget*R2.fastq.gz', emit: offtarget_read2
+    path 'res_split_ontarget/ontarget*R1.fastq.gz', emit: ontarget_read1
+    path 'res_split_ontarget/ontarget*R2.fastq.gz', emit: ontarget_read2
+    path 'res_split_ontarget/offtarget*R1.fastq.gz', emit: offtarget_read1
+    path 'res_split_ontarget/offtarget*R2.fastq.gz', emit: offtarget_read2
 
     script:
     def software = getSoftwareName(task.process)
