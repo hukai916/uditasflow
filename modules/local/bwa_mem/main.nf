@@ -28,10 +28,10 @@ process BWA_MEM {
     // path 'offtarget/*/offtarget*.both.bam', emit: offtarget_both_bam
     // path 'offtarget/*/offtarget*.R1only.bam', emit: offtarget_R1only_bam
     // path 'offtarget/*/offtarget*.R2only.bam', emit: offtarget_R1only_bam
-    ontarget_read1.simpleName = ontarget_read1.simpleName[0..-3] // to get rid of _R1/_R2 from simpleName
-    ontarget_read2.simpleName = ontarget_read2.simpleName[0..-3]
+    ontarget_read1_name = ontarget_read1.simpleName[0..-3] // to get rid of _R1/_R2 from simpleName
+    ontarget_read2_name = ontarget_read2.simpleName[0..-3]
 
-    
+
     script:
 
     """
@@ -44,7 +44,7 @@ process BWA_MEM {
             $ontarget_read1 $ontarget_read2 \\
             | samtools view -b -o ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam
 
-    samtools sort ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam -o ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam
+    samtools sort ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam -o ontarget/${bam_dir}/${ontarget_read1_name}.both.bam
     samtools index ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam
     samtools stats ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam > ontarget/${bam_dir}/${ontarget_read1.simpleName}.both.bam.stat
 
