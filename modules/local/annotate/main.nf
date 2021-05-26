@@ -23,7 +23,7 @@ process ANNOTATE {
     path offtarget_bam_R2only
 
     output:
-    path 'res_fragment_size_dist/*_fragment_size_dist.pdf'
+    path 'res_fragment_size_dist/*fragment.size.dist.pdf'
     path 'res_bed/*'
     path 'res_bedstack/*'
 

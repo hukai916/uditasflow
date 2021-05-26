@@ -30,7 +30,7 @@ get_fragment_size_dist <- function(bam_file, path_output_dir) {
 	}
 
 	bam_file.labels <- gsub(".bam", "", basename(bam_file))
-	pdf(file = paste0(path_output_dir, "/", basename(bam_file), "_fragment_size.pdf"),
+	pdf(file = paste0(path_output_dir, "/", basename(bam_file), ".fragment.size.dist.pdf"),
 			width = 4,
 			height = 6)
 	fragSizeDist(bam_file, bam_file.labels)
