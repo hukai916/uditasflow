@@ -140,8 +140,8 @@ workflow UDITASFLOW {
     }
     sample_csv = Channel.from(samples).toSortedList( {a, b -> a[0] <=> b[0]} ).flatten().collate( 3 )
     // Here, groupTuple should be more robust, but haven't figured out the right syntax.
-    cutadapter_read1 = CUTADAPTER.out.cutadapter_read1.toSortedList( { a, b -> a.getName() <=> b.getName() } )).flatten()
-    cutadapter_read2 = CUTADAPTER.out.cutadapter_read2.toSortedList( { a, b -> a.getName() <=> b.getName() } )).flatten()
+    cutadapter_read1 = CUTADAPTER.out.cutadapter_read1.toSortedList( { a, b -> a.getName() <=> b.getName() } ).flatten()
+    cutadapter_read2 = CUTADAPTER.out.cutadapter_read2.toSortedList( { a, b -> a.getName() <=> b.getName() } ).flatten()
 
     SPLITONTARGET (
       sample_csv,
