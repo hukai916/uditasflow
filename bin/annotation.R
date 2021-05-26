@@ -35,8 +35,10 @@ get_annotation <- function(bed_file, genome, path_output_dir) {
   if (file.exists(path_output_dir)) {
     warning("Result folder already exists! Will overwrite!")
   }
-  if (!(dir.create(file.path(path_output_dir)))) {
-    stop("can't create output folder, check write permission!")
+  if (!file.exists(path_output_dir)) {
+    if (!(dir.create(file.path(path_output_dir)))) {
+      stop("can't create output folder, check write permission!")
+    }
   }
   
   # Read in the bed file

@@ -23,10 +23,12 @@ get_fragment_size_dist <- function(bam_file, path_output_dir) {
 	if (file.exists(path_output_dir)) {
 		warning("Result folder already exists! Will overwrite!")
 	}
-	if (!(dir.create(file.path(path_output_dir)))) {
-		stop("can't create output folder, check write permission!")
+	if (!file.exists(path_output_dir)) {
+		if (!(dir.create(file.path(path_output_dir)))) {
+			stop("can't create output folder, check write permission!")
+		}
 	}
-	
+
 	bam_file.labels <- gsub(".bam", "", basename(bam_file))
 	pdf(file = paste0(path_output_dir, "/", basename(bam_file), "_fragment_size.pdf"),
 			width = 4,
