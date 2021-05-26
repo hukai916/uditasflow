@@ -26,6 +26,7 @@ process ANNOTATE {
     path 'res_fragment_size_dist/*fragment.size.dist.pdf'
     path 'res_bed/*'
     path 'res_bedstack/*'
+    path 'res_annotation/*'
 
     script:
 
