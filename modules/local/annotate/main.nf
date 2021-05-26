@@ -13,6 +13,7 @@ process ANNOTATE {
     container "hukai916/r_annotation:0.1"
 
     input:
+    val genome
     path ontarget_bam_both
     path ontarget_bam_R1only
     path ontarget_bam_R2only
@@ -20,8 +21,6 @@ process ANNOTATE {
     path offtarget_bam_both
     path offtarget_bam_R1only
     path offtarget_bam_R2only
-
-    val genome
 
     output:
     path 'res_fragment_size_dist/*_fragment_size_dist.pdf'

@@ -167,6 +167,7 @@ workflow UDITASFLOW {
     )
 
     ANNOTATE (
+      params.genome,
       BWA_MEM.out.ontarget_both_bam,
       BWA_MEM.out.ontarget_R1only_bam,
       BWA_MEM.out.ontarget_R2only_bam,
