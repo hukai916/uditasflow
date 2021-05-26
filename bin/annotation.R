@@ -33,7 +33,7 @@ get_annotation <- function(bed_file, genome, path_output_dir) {
   
   # Check if output folder already exists:
   if (file.exists(path_output_dir)) {
-    stop("Result folder already exists! Please delete it first!")
+    warning("Result folder already exists! Will overwrite!")
   }
   if (!(dir.create(file.path(path_output_dir)))) {
     stop("can't create output folder, check write permission!")
