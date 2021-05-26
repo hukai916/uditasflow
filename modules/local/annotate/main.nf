@@ -21,16 +21,19 @@ process ANNOTATE {
     path offtarget_bam_R1only
     path offtarget_bam_R2only
 
+    val genome
+
     output:
     path 'res_fragment_size_dist/*_fragment_size_dist.pdf'
     path 'res_bed/*'
     path 'res_bedstack/*'
 
-
     script:
 
     """
     # bam fragment size distribution
+    samtools index $ontarget_bam_both
+    samtools index $offtarget_bam_both
     fragment_size_dist.R --bam_file=$ontarget_bam_both
     fragment_size_dist.R --bam_file=$offtarget_bam_both
 
@@ -50,13 +53,17 @@ process ANNOTATE {
     cat res_bed/${ontarget_bam_R1only}.bed | awk -F '\t' 'BEGIN {OFS="\t"} { print \$1,\$2,\$3,\$5,\$6}' | sort | uniq -c | awk 'BEGIN {OFS="\t"} {print \$2,\$3,\$4,"test",\$5,\$6,\$1}' > res_bedstack/${ontarget_bam_R1only}.stacked.bed
     cat res_bed/${ontarget_bam_R2only}.bed | awk -F '\t' 'BEGIN {OFS="\t"} { print \$1,\$2,\$3,\$5,\$6}' | sort | uniq -c | awk 'BEGIN {OFS="\t"} {print \$2,\$3,\$4,"test",\$5,\$6,\$1}' > res_bedstack/${ontarget_bam_R2only}.stacked.bed
 
-cat res_bed/${offtarget_bam_both}.bed | awk -F '\t' 'BEGIN {OFS="\t"} { print \$1,\$2,\$3,\$5,\$6}' | sort | uniq -c | awk 'BEGIN {OFS="\t"} {print \$2,\$3,\$4,"test",\$5,\$6,\$1}' > res_bedstack/${offtarget_bam_both}.stacked.bed
-cat res_bed/${offtarget_bam_R1only}.bed | awk -F '\t' 'BEGIN {OFS="\t"} { print \$1,\$2,\$3,\$5,\$6}' | sort | uniq -c | awk 'BEGIN {OFS="\t"} {print \$2,\$3,\$4,"test",\$5,\$6,\$1}' > res_bedstack/${offtarget_bam_R1only}.stacked.bed
-cat res_bed/${offtarget_bam_R2only}.bed | awk -F '\t' 'BEGIN {OFS="\t"} { print \$1,\$2,\$3,\$5,\$6}' | sort | uniq -c | awk 'BEGIN {OFS="\t"} {print \$2,\$3,\$4,"test",\$5,\$6,\$1}' > res_bedstack/${offtarget_bam_R2only}.stacked.bed
+    cat res_bed/${offtarget_bam_both}.bed | awk -F '\t' 'BEGIN {OFS="\t"} { print \$1,\$2,\$3,\$5,\$6}' | sort | uniq -c | awk 'BEGIN {OFS="\t"} {print \$2,\$3,\$4,"test",\$5,\$6,\$1}' > res_bedstack/${offtarget_bam_both}.stacked.bed
+    cat res_bed/${offtarget_bam_R1only}.bed | awk -F '\t' 'BEGIN {OFS="\t"} { print \$1,\$2,\$3,\$5,\$6}' | sort | uniq -c | awk 'BEGIN {OFS="\t"} {print \$2,\$3,\$4,"test",\$5,\$6,\$1}' > res_bedstack/${offtarget_bam_R1only}.stacked.bed
+    cat res_bed/${offtarget_bam_R2only}.bed | awk -F '\t' 'BEGIN {OFS="\t"} { print \$1,\$2,\$3,\$5,\$6}' | sort | uniq -c | awk 'BEGIN {OFS="\t"} {print \$2,\$3,\$4,"test",\$5,\$6,\$1}' > res_bedstack/${offtarget_bam_R2only}.stacked.bed
 
-# annotate
-
-
+    # annotate
+    annotation.R --bed_file=res_bedstack/${ontarget_bam_both}.stacked.bed --genome=${genome}
+    annotation.R --bed_file=res_bedstack/${ontarget_bam_R1only}.stacked.bed --genome=${genome}
+    annotation.R --bed_file=res_bedstack/${ontarget_bam_R2only}.stacked.bed --genome=${genome}
+    annotation.R --bed_file=res_bedstack/${offtarget_bam_both}.stacked.bed --genome=${genome}
+    annotation.R --bed_file=res_bedstack/${offtarget_bam_R1only}.stacked.bed --genome=${genome}
+    annotation.R --bed_file=res_bedstack/${offtarget_bam_R2only}.stacked.bed --genome=${genome}
 
     """
 }
