@@ -10,7 +10,7 @@ process ANNOTATE {
         mode: params.publish_dir_mode,
         saveAs: { filename -> saveFiles(filename: filename, options: params.options, publish_dir: getSoftwareName(task.process), publish_id: '') }
 
-    container "hukai916/bwa:0.7.17"
+    container "hukai916/r_annotation:0.1"
 
     input:
     path ontarget_bam_both
@@ -22,103 +22,47 @@ process ANNOTATE {
     path offtarget_bam_R2only
 
     output:
-    path 'ontarget/*/ontarget*.both.bam', emit: ontarget_both_bam
-    path 'ontarget/*/ontarget*.R1only.bam', emit: ontarget_R1only_bam
-    path 'ontarget/*/ontarget*.R2only.bam', emit: ontarget_R2only_bam
-    path 'ontarget/*/bam_qc_*', emit: ontarget_bam_qc
+    path 'res_fragment_size_dist/*_fragment_size_dist.pdf'
+    path 'res_bed/*'
+    path 'res_bedstack/*'
 
-    path 'offtarget/*/offtarget*.both.bam', emit: offtarget_both_bam
-    path 'offtarget/*/offtarget*.R1only.bam', emit: offtarget_R1only_bam
-    path 'offtarget/*/offtarget*.R2only.bam', emit: offtarget_R2only_bam
-    path 'offtarget/*/bam_qc_*', emit: offtarget_bam_qc
 
     script:
-    // ontarget_read1.simpleName = ontarget_read1.simpleName[0..-3] // to get rid of _R1/_R2 from simpleName; also can't set readonly property
-    ontarget_read_simpleName  = ontarget_read1.simpleName[0..-4]
-    offtarget_read_simpleName = offtarget_read1.simpleName[0..-4]
 
     """
-    INDEX=`find -L ./ -name "*.amb" | sed 's/.amb//'`
+    # bam fragment size distribution
+    fragment_size_dist.R --bam_file=$ontarget_bam_both
+    fragment_size_dist.R --bam_file=$offtarget_bam_both
 
-  ## ontarget:
-    ## map both R1 and R2 reads:
-    mkdir -p ontarget/${bam_dir}
-    mkdir -p ontarget/${bam_dir}/bam_qc_${ontarget_read_simpleName}
+    # bam2bed
+    mkdir res_bed
+    bedtools bamtobed -i $ontarget_bam_both > res_bed/${ontarget_bam_both}.bed
+    bedtools bamtobed -i $ontarget_bam_R1only > res_bed/${ontarget_bam_R1only}.bed
+    bedtools bamtobed -i $ontarget_bam_R2only > res_bed/${ontarget_bam_R2only}.bed
 
-    bwa mem $options.args \\
-            \$INDEX \\
-            $ontarget_read1 $ontarget_read2 \\
-            | samtools view -b -o ontarget/${bam_dir}/${ontarget_read_simpleName}.both.bam
+    bedtools bamtobed -i $offtarget_bam_both > res_bed/${offtarget_bam_both}.bed
+    bedtools bamtobed -i $offtarget_bam_R1only > res_bed/${offtarget_bam_R1only}.bed
+    bedtools bamtobed -i $offtarget_bam_R2only > res_bed/${offtarget_bam_R2only}.bed
 
-    samtools sort ontarget/${bam_dir}/${ontarget_read_simpleName}.both.bam -o ontarget/${bam_dir}/${ontarget_read_simpleName}.both.bam
-    samtools index ontarget/${bam_dir}/${ontarget_read_simpleName}.both.bam
-    samtools stats ontarget/${bam_dir}/${ontarget_read_simpleName}.both.bam > ontarget/${bam_dir}/${ontarget_read_simpleName}.both.bam.stat
+    # bed2stack
+    mkdir res_bedstack
+    cat res_bed/${ontarget_bam_both}.bed | awk -F '\t' 'BEGIN {OFS="\t"} {
+print $1,$2,$3,$5,$6}' | sort | uniq -c | awk 'BEGIN {OFS="\t"} {print $2,$3,$4,"test",$5,$6,$1}' > res_bedstack/${ontarget_bam_both}.stacked.bed
+    cat res_bed/${ontarget_bam_R1only}.bed | awk -F '\t' 'BEGIN {OFS="\t"} {
+print $1,$2,$3,$5,$6}' | sort | uniq -c | awk 'BEGIN {OFS="\t"} {print $2,$3,$4,"test",$5,$6,$1}' > res_bedstack/${ontarget_bam_R1only}.stacked.bed
+    cat res_bed/${ontarget_bam_R2only}.bed | awk -F '\t' 'BEGIN {OFS="\t"} {
+print $1,$2,$3,$5,$6}' | sort | uniq -c | awk 'BEGIN {OFS="\t"} {print $2,$3,$4,"test",$5,$6,$1}' > res_bedstack/${ontarget_bam_R2only}.stacked.bed
 
-    multiqc ontarget/${bam_dir}/${ontarget_read_simpleName}.both.bam.stat --outdir ontarget/${bam_dir}/bam_qc_${ontarget_read_simpleName} -n ${ontarget_read_simpleName}.both.bam.stat
+cat res_bed/${offtarget_bam_both}.bed | awk -F '\t' 'BEGIN {OFS="\t"} {
+print $1,$2,$3,$5,$6}' | sort | uniq -c | awk 'BEGIN {OFS="\t"} {print $2,$3,$4,"test",$5,$6,$1}' > res_bedstack/${offtarget_bam_both}.stacked.bed
+cat res_bed/${offtarget_bam_R1only}.bed | awk -F '\t' 'BEGIN {OFS="\t"} {
+print $1,$2,$3,$5,$6}' | sort | uniq -c | awk 'BEGIN {OFS="\t"} {print $2,$3,$4,"test",$5,$6,$1}' > res_bedstack/${offtarget_bam_R1only}.stacked.bed
+cat res_bed/${offtarget_bam_R2only}.bed | awk -F '\t' 'BEGIN {OFS="\t"} {
+print $1,$2,$3,$5,$6}' | sort | uniq -c | awk 'BEGIN {OFS="\t"} {print $2,$3,$4,"test",$5,$6,$1}' > res_bedstack/${offtarget_bam_R2only}.stacked.bed
 
-    ## map R1 only:
-    bwa mem $options.args \\
-            \$INDEX \\
-            $ontarget_read1 \\
-            | samtools view -b -o ontarget/${bam_dir}/${ontarget_read_simpleName}.R1only.bam
+# annotate
 
-    samtools sort ontarget/${bam_dir}/${ontarget_read_simpleName}.R1only.bam -o ontarget/${bam_dir}/${ontarget_read_simpleName}.R1only.bam
-    samtools index ontarget/${bam_dir}/${ontarget_read_simpleName}.R1only.bam
-    samtools stats ontarget/${bam_dir}/${ontarget_read_simpleName}.R1only.bam > ontarget/${bam_dir}/${ontarget_read_simpleName}.R1only.bam.stat
 
-    multiqc ontarget/${bam_dir}/${ontarget_read_simpleName}.R1only.bam.stat --outdir ontarget/${bam_dir}/bam_qc_${ontarget_read_simpleName} -n ${ontarget_read_simpleName}.R1only.bam.stat
-
-    ## map R2 only:
-    bwa mem $options.args \\
-            \$INDEX \\
-            $ontarget_read2 \\
-            | samtools view -b -o ontarget/${bam_dir}/${ontarget_read_simpleName}.R2only.bam
-
-    samtools sort ontarget/${bam_dir}/${ontarget_read_simpleName}.R2only.bam -o ontarget/${bam_dir}/${ontarget_read_simpleName}.R2only.bam
-    samtools index ontarget/${bam_dir}/${ontarget_read_simpleName}.R2only.bam
-    samtools stats ontarget/${bam_dir}/${ontarget_read_simpleName}.R2only.bam > ontarget/${bam_dir}/${ontarget_read_simpleName}.R2only.bam.stat
-
-    multiqc ontarget/${bam_dir}/${ontarget_read_simpleName}.R2only.bam.stat --outdir ontarget/${bam_dir}/bam_qc_${ontarget_read_simpleName} -n ${ontarget_read_simpleName}.R2only.bam.stat
-
-  ## offtarget:
-    ## map both R1 and R2 reads:
-    mkdir -p offtarget/${bam_dir}
-    mkdir -p ontarget/${bam_dir}/bam_qc_${ontarget_read_simpleName}
-
-    bwa mem $options.args \\
-            \$INDEX \\
-            $offtarget_read1 $offtarget_read2 \\
-            | samtools view -b -o offtarget/${bam_dir}/${offtarget_read_simpleName}.both.bam
-
-    samtools sort offtarget/${bam_dir}/${offtarget_read_simpleName}.both.bam -o offtarget/${bam_dir}/${offtarget_read_simpleName}.both.bam
-    samtools index offtarget/${bam_dir}/${offtarget_read_simpleName}.both.bam
-    samtools stats offtarget/${bam_dir}/${offtarget_read_simpleName}.both.bam > offtarget/${bam_dir}/${offtarget_read_simpleName}.both.bam.stat
-
-    multiqc offtarget/${bam_dir}/${offtarget_read_simpleName}.both.bam.stat --outdir offtarget/${bam_dir}/bam_qc_${offtarget_read_simpleName} -n ${offtarget_read_simpleName}.both.bam.stat
-
-    ## map R1 only:
-    bwa mem $options.args \\
-            \$INDEX \\
-            $offtarget_read1 \\
-            | samtools view -b -o offtarget/${bam_dir}/${offtarget_read_simpleName}.R1only.bam
-
-    samtools sort offtarget/${bam_dir}/${offtarget_read_simpleName}.R1only.bam -o offtarget/${bam_dir}/${offtarget_read_simpleName}.R1only.bam
-    samtools index offtarget/${bam_dir}/${offtarget_read_simpleName}.R1only.bam
-    samtools stats offtarget/${bam_dir}/${offtarget_read_simpleName}.R1only.bam > offtarget/${bam_dir}/${offtarget_read_simpleName}.R1only.bam.stat
-
-    multiqc offtarget/${bam_dir}/${offtarget_read_simpleName}.R1only.bam.stat --outdir offtarget/${bam_dir}/bam_qc_${offtarget_read_simpleName} -n ${offtarget_read_simpleName}.R1only.bam.stat
-
-    ## map R2 only:
-    bwa mem $options.args \\
-            \$INDEX \\
-            $offtarget_read2 \\
-            | samtools view -b -o offtarget/${bam_dir}/${offtarget_read_simpleName}.R2only.bam
-
-    samtools sort offtarget/${bam_dir}/${offtarget_read_simpleName}.R2only.bam -o offtarget/${bam_dir}/${offtarget_read_simpleName}.R2only.bam
-    samtools index offtarget/${bam_dir}/${offtarget_read_simpleName}.R2only.bam
-    samtools stats offtarget/${bam_dir}/${offtarget_read_simpleName}.R2only.bam > offtarget/${bam_dir}/${offtarget_read_simpleName}.R2only.bam.stat
-
-    multiqc offtarget/${bam_dir}/${offtarget_read_simpleName}.R2only.bam.stat --outdir offtarget/${bam_dir}/bam_qc_${offtarget_read_simpleName} -n ${offtarget_read_simpleName}.R2only.bam.stat
 
     """
 }

@@ -64,6 +64,8 @@ include { BWA_INDEX             } from '../modules/local/bwa_index/main'        
 
 include { BWA_MEM               } from '../modules/local/bwa_mem/main'            addParams( options: modules['bwa_mem']           )
 
+include { ANNOTATE              } from '../modules/local/annotate/main'            addParams( options: modules['bwa_mem']           )
+
 include { TEST                  } from '../modules/local/test/main'               addParams( options: modules['test']              )
 
 
@@ -164,6 +166,14 @@ workflow UDITASFLOW {
       SPLITONTARGET.out.offtarget_read2
     )
 
+    ANNOTATE (
+      BWA_MEM.out.ontarget_both_bam,
+      BWA_MEM.out.ontarget_R1only_bam,
+      BWA_MEM.out.ontarget_R2only_bam,
+      BWA_MEM.out.offtarget_both_bam,
+      BWA_MEM.out.offtarget_R1only_bam,
+      BWA_MEM.out.offtarget_R2only_bam
+    )
     // TEST (
     //   umi,
     //   read1,
